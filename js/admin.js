@@ -99,13 +99,13 @@ function renderProjectsFields() {
     card.style.marginBottom = "1.5rem";
 
     card.innerHTML = `
-      <h3>Project Part ${project.id}</h3>
+      <h3>Project ${project.id}</h3>
       <label>Title</label>
       <input type="text" data-field="title" data-index="${pIndex}" value="${escapeAttr(project.title)}" class="admin-input proj-input">
       <label>Description</label>
       <textarea data-field="description" data-index="${pIndex}" class="admin-input proj-input" rows="2">${escapeHtml(project.description)}</textarea>
-      <label>PPTX raw file URL (e.g. from GitHub — see note above)</label>
-      <input type="text" data-field="pptxUrl" data-index="${pIndex}" value="${escapeAttr(project.pptxUrl)}" class="admin-input proj-input" placeholder="https://raw.githubusercontent.com/user/repo/main/assets/pptx/project${project.id}.pptx">
+      <label>PPTX file path or URL — either a path to a file committed in this repo (e.g. <code>/ProjectName.pptx</code>) or a full https:// link</label>
+      <input type="text" data-field="pptxUrl" data-index="${pIndex}" value="${escapeAttr(project.pptxUrl)}" class="admin-input proj-input" placeholder="/ProjectName.pptx">
     `;
 
     container.appendChild(card);

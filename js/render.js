@@ -56,14 +56,29 @@ function renderProject(id) {
   const wrapper = document.getElementById("embed-wrapper");
 
   if (project.pptxUrl && project.pptxUrl.trim() !== "") {
-    const viewerUrl =
-      "https://view.officeapps.live.com/op/embed.aspx?src=" +
-      encodeURIComponent(project.pptxUrl.trim());
-    wrapper.innerHTML = `<iframe src="${viewerUrl}" title="${escapeHtml(project.title)}" allowfullscreen></iframe>`;
+    const absoluteUrl = new URL(project.pptxUrl.trim(), window.location.href).href;
+    const isLocalFile = absoluteUrl.startsWith("file:");
+
+    if (isLocalFile) {
+      // Office's viewer can't reach a file:// URL on your own machine — it
+      // only works once the site is deployed (e.g. on Vercel) so the pptx
+      // has a real public URL. Offer a direct download instead for now.
+      wrapper.innerHTML = `
+        <div class="embed-placeholder">
+          <strong>Preview available after deployment</strong>
+          <p>The Office viewer needs a public URL, which only exists once this site is deployed (e.g. on Vercel). Locally, use the download link below.</p>
+        </div>
+      `;
+    } else {
+      const viewerUrl =
+        "https://view.officeapps.live.com/op/embed.aspx?src=" +
+        encodeURIComponent(absoluteUrl);
+      wrapper.innerHTML = `<iframe src="${viewerUrl}" title="${escapeHtml(project.title)}" allowfullscreen></iframe>`;
+    }
 
     const downloadEl = document.getElementById("download-link");
     if (downloadEl) {
-      downloadEl.href = project.pptxUrl.trim();
+      downloadEl.href = absoluteUrl;
       downloadEl.style.display = "inline-block";
     }
   } else {
@@ -71,10 +86,9 @@ function renderProject(id) {
       <div class="embed-placeholder">
         <strong>No presentation linked yet</strong>
         <p>
-          1. Push your <code>.pptx</code> file into this repo (e.g. <code>assets/pptx/project${id}.pptx</code>).<br>
-          2. Copy its raw GitHub URL, e.g.
-          <code>https://raw.githubusercontent.com/&lt;user&gt;/&lt;repo&gt;/main/assets/pptx/project${id}.pptx</code>.<br>
-          3. Paste that URL into this project's field on the <a href="../admin.html">admin page</a> and Save/Export.
+          1. Commit your <code>.pptx</code> file into this repo (e.g. <code>/MyProject.pptx</code> at the root).<br>
+          2. On the <a href="../admin.html">admin page</a>, paste that path (e.g. <code>/MyProject.pptx</code>) into this project's PPTX field, Save, then Export and commit the updated <code>data.js</code>.<br>
+          3. The embed above will work once the site is live on Vercel (Office's viewer needs a public URL, not a local file).
         </p>
       </div>
     `;

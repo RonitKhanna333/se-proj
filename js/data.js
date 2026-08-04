@@ -47,10 +47,10 @@ const defaultTeamData = {
     }
   ],
   projects: [
-    { id: 1, title: "Project Part 1", description: "Overview / problem statement presentation.", pptxUrl: "" },
-    { id: 2, title: "Project Part 2", description: "Design & methodology presentation.", pptxUrl: "" },
-    { id: 3, title: "Project Part 3", description: "Implementation presentation.", pptxUrl: "" },
-    { id: 4, title: "Project Part 4", description: "Results & conclusion presentation.", pptxUrl: "" }
+    { id: 1, title: "GovAssist", description: "Add a short description from the admin page.", pptxUrl: "/GovAssist.pptx" },
+    { id: 2, title: "Lost And Found Portal", description: "Add a short description from the admin page.", pptxUrl: "/LostAndFoundPortal.pptx" },
+    { id: 3, title: "Placement Readiness Platform", description: "Add a short description from the admin page.", pptxUrl: "/PlacementReadinessPlatform.pptx" },
+    { id: 4, title: "Semester Workload Balancer", description: "Add a short description from the admin page.", pptxUrl: "/SemesterWorkloadBalancer.pptx" }
   ]
 };
 
