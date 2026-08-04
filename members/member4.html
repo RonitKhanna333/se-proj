@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Member Four — Team Portfolio</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <a class="brand" href="../index.html">Team Project</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="member1.html">Member 1</a>
+    <a href="member2.html">Member 2</a>
+    <a href="member3.html">Member 3</a>
+    <a href="member4.html" class="active">Member 4</a>
+    <a href="../projects/project1.html">Project 1</a>
+    <a href="../projects/project2.html">Project 2</a>
+    <a href="../projects/project3.html">Project 3</a>
+    <a href="../projects/project4.html">Project 4</a>
+    <a href="../admin.html">Admin</a>
+  </nav>
+</header>
+
+<div class="container">
+
+  <div id="hint" class="card" style="display:none; margin-bottom:2rem; border-color:var(--accent);">
+    This profile hasn't been filled in on this browser yet. Visit the <a href="../admin.html">admin page</a> to add your name, role and skills.
+  </div>
+
+  <div class="profile-header">
+    <div class="avatar" id="avatar">?</div>
+    <div>
+      <h1 id="name">Loading...</h1>
+      <p class="role" id="role"></p>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h2 class="section-title" style="margin-top:0;">About</h2>
+      <p id="bio" style="color:var(--text-dim);"></p>
+    </div>
+    <div>
+      <h2 class="section-title" style="margin-top:0;">Skills</h2>
+      <div id="skills"></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  &copy; 2026 Team Project. Built for our group assignment.
+</footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/render.js"></script>
+<script>renderMember(4);</script>
+</body>
+</html>

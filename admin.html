@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Team Portfolio</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <a class="brand" href="index.html">Team Project</a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="members/member1.html">Member 1</a>
+    <a href="members/member2.html">Member 2</a>
+    <a href="members/member3.html">Member 3</a>
+    <a href="members/member4.html">Member 4</a>
+    <a href="projects/project1.html">Project 1</a>
+    <a href="projects/project2.html">Project 2</a>
+    <a href="projects/project3.html">Project 3</a>
+    <a href="projects/project4.html">Project 4</a>
+    <a href="admin.html" class="active">Admin</a>
+  </nav>
+</header>
+
+<div class="container">
+
+  <h1>Admin — Edit Site Content</h1>
+
+  <div class="card" style="border-color:var(--accent); margin-bottom:2rem;">
+    <p style="margin:0;">
+      <strong>How this works:</strong> "Save" stores your changes in <em>this browser only</em>,
+      so you can preview them immediately on the member/project pages. To make changes visible to
+      everyone visiting the deployed site, click <strong>Export data.js</strong> below, copy the
+      generated code, and replace the contents of <code>js/data.js</code> in the project repo, then
+      commit &amp; push (or ask a teammate with repo access to do it).
+    </p>
+  </div>
+
+  <form id="admin-form">
+
+    <h2 class="section-title">Team Members</h2>
+    <div id="members-fields"></div>
+
+    <h2 class="section-title">Project Presentations</h2>
+    <div id="projects-fields"></div>
+
+    <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:2rem;">
+      <button type="submit" class="btn">Save (preview in this browser)</button>
+      <button type="button" id="export-btn" class="btn" style="background:var(--card); border:1px solid var(--border); color:var(--text);">Export data.js</button>
+      <button type="button" id="reset-btn" class="btn" style="background:transparent; border:1px solid var(--border); color:var(--text-dim);">Reset to defaults</button>
+    </div>
+
+    <p id="save-status" style="color:#34d399; display:none; margin-top:1rem;">Saved! Open a member or project page to see the preview.</p>
+
+  </form>
+
+  <div id="export-output" style="display:none; margin-top:2rem;">
+    <h2 class="section-title">Generated js/data.js</h2>
+    <p style="color:var(--text-dim);">Copy everything below and paste it into <code>js/data.js</code>, replacing the existing <code>defaultTeamData</code> object.</p>
+    <textarea id="export-textarea" readonly style="width:100%; min-height:320px; background:var(--card); color:var(--text); border:1px solid var(--border); border-radius:8px; padding:1rem; font-family:Consolas, monospace; font-size:0.85rem;"></textarea>
+    <button type="button" id="copy-btn" class="btn" style="margin-top:1rem;">Copy to clipboard</button>
+  </div>
+
+</div>
+
+<footer>
+  &copy; 2026 Team Project. Built for our group assignment.
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
