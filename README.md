@@ -34,6 +34,23 @@ js/admin.js                   Powers the admin editing form
 
 ## Deploying
 
+### Vercel (recommended)
+
+This is a plain static site (no build step), and `vercel.json` is already set up for it.
+
+1. Go to [vercel.com/new](https://vercel.com/new) and import the `RonitKhanna333/se-proj` GitHub repo.
+2. Framework Preset: **Other**. Leave Build Command and Output Directory empty — Vercel serves the repo root as-is.
+3. Click **Deploy**. Every future push to `main` auto-deploys.
+
+Or from the CLI, inside this folder:
+
+```bash
+npm i -g vercel
+vercel
+```
+
+### GitHub Pages (alternative)
+
 Enable **GitHub Pages** in the repo settings (Settings → Pages → Deploy from branch `main`, folder `/root`).
 
 ## Team
