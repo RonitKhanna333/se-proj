@@ -34,16 +34,6 @@ const defaultTeamData = {
         { name: "Skill A", level: 70 },
         { name: "Skill B", level: 60 }
       ]
-    },
-    {
-      id: 4,
-      name: "Member Four",
-      role: "Role / Title",
-      bio: "Add a short bio here from the admin page.",
-      skills: [
-        { name: "Skill A", level: 70 },
-        { name: "Skill B", level: 60 }
-      ]
     }
   ],
   projects: [
