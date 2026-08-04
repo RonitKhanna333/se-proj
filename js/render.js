@@ -81,6 +81,56 @@ function renderProject(id) {
   }
 }
 
+function memberInitials(name) {
+  return (name || "")
+    .split(" ")
+    .map((w) => w[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase() || "?";
+}
+
+// Populates the "Meet the Team" card grid on index.html from data.js
+function renderHomeTeam() {
+  const grid = document.getElementById("home-team-grid");
+  if (!grid) return;
+
+  const data = getTeamData();
+  grid.innerHTML = "";
+
+  data.members.forEach((member) => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <div class="avatar">${escapeHtml(memberInitials(member.name))}</div>
+      <h3 style="text-align:center;">${escapeHtml(member.name)}</h3>
+      <p style="text-align:center;">${escapeHtml(member.role)}</p>
+      <p style="text-align:center;"><a href="members/member${member.id}.html">View Profile →</a></p>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// Populates the "Project Showcase" card grid on index.html from data.js
+function renderHomeProjects() {
+  const grid = document.getElementById("home-project-grid");
+  if (!grid) return;
+
+  const data = getTeamData();
+  grid.innerHTML = "";
+
+  data.projects.forEach((project) => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <h3>${escapeHtml(project.title)}</h3>
+      <p>${escapeHtml(project.description)}</p>
+      <p><a href="projects/project${project.id}.html">View Slides →</a></p>
+    `;
+    grid.appendChild(card);
+  });
+}
+
 function escapeHtml(str) {
   const div = document.createElement("div");
   div.textContent = str ?? "";

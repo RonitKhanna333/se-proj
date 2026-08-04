@@ -32,66 +32,10 @@
 <div class="container">
 
   <h2 class="section-title">Meet the Team</h2>
-  <div class="grid">
-
-    <div class="card">
-      <div class="avatar">M1</div>
-      <h3 style="text-align:center;">Member One</h3>
-      <p style="text-align:center;">Role / Title</p>
-      <p style="text-align:center;"><a href="members/member1.html">View Profile →</a></p>
-    </div>
-
-    <div class="card">
-      <div class="avatar">M2</div>
-      <h3 style="text-align:center;">Member Two</h3>
-      <p style="text-align:center;">Role / Title</p>
-      <p style="text-align:center;"><a href="members/member2.html">View Profile →</a></p>
-    </div>
-
-    <div class="card">
-      <div class="avatar">M3</div>
-      <h3 style="text-align:center;">Member Three</h3>
-      <p style="text-align:center;">Role / Title</p>
-      <p style="text-align:center;"><a href="members/member3.html">View Profile →</a></p>
-    </div>
-
-    <div class="card">
-      <div class="avatar">M4</div>
-      <h3 style="text-align:center;">Member Four</h3>
-      <p style="text-align:center;">Role / Title</p>
-      <p style="text-align:center;"><a href="members/member4.html">View Profile →</a></p>
-    </div>
-
-  </div>
+  <div class="grid" id="home-team-grid"></div>
 
   <h2 class="section-title">Project Showcase</h2>
-  <div class="grid">
-
-    <div class="card">
-      <h3>Project Part 1</h3>
-      <p>Overview / problem statement presentation.</p>
-      <p><a href="projects/project1.html">View Slides →</a></p>
-    </div>
-
-    <div class="card">
-      <h3>Project Part 2</h3>
-      <p>Design & methodology presentation.</p>
-      <p><a href="projects/project2.html">View Slides →</a></p>
-    </div>
-
-    <div class="card">
-      <h3>Project Part 3</h3>
-      <p>Implementation presentation.</p>
-      <p><a href="projects/project3.html">View Slides →</a></p>
-    </div>
-
-    <div class="card">
-      <h3>Project Part 4</h3>
-      <p>Results & conclusion presentation.</p>
-      <p><a href="projects/project4.html">View Slides →</a></p>
-    </div>
-
-  </div>
+  <div class="grid" id="home-project-grid"></div>
 
 </div>
 
@@ -99,5 +43,11 @@
   &copy; 2026 Team Project. Built for our group assignment.
 </footer>
 
+<script src="js/data.js"></script>
+<script src="js/render.js"></script>
+<script>
+  renderHomeTeam();
+  renderHomeProjects();
+</script>
 </body>
 </html>
