@@ -100,106 +100,116 @@
   "planningPresentation": {
     "title": "Planning Presentation v1",
     "eyebrow": "UCS503 · Planning Presentation",
-    "version": "v1.0",
-    "date": "5 August 2026",
+    "version": "v1.1",
+    "date": "11 August 2026",
     "status": "Published",
     "authors": ["Ronit", "Bhavneet", "Shreyas"],
-    "changeSummary": "First submitted version. It compares four ideas and records why we chose GovAssist.",
-    "description": "This page contains our first planning presentation and the supporting notes for the project review.",
-    "pptxUrl": "PlanningPresentation.pptx",
+    "changeSummary": "Revised with the full development plan: a corpus-first build order, an LLM-aided drafting workflow with human-gated provenance, a multilingual voice layer, and a Postgres-based knowledge graph. Scope narrows to scheme eligibility only for the MVP; ITR and GST are deferred but the pipeline stays domain-generic.",
+    "description": "GovAssist is a grounded copilot: it answers government-paperwork questions with the exact rule clause cited, instead of a confident guess. English is the canonical internal language — translation happens only at the boundaries — so a citizen can read the UI, ask a question, and hear the answer spoken back in their own regional language, while every claim underneath still traces to a verbatim quote from an official document.",
+    "pptxUrl": "GovAssist_UCS503_Presentation.pptx",
     "selectedProjectId": 1,
     "teamMemberIds": [1, 2, 3],
     "constraints": [
       "Three members",
-      "One semester",
-      "Free-tier conscious",
-      "No dedicated GPU"
+      "One semester (~14 weeks)",
+      "No dedicated GPU",
+      "No paid API budget"
     ],
-    "scope": "GovAssist helps citizens and small businesses check selected public-scheme and tax rules. For the first version, users can enter details manually, choose an ITR use case, and check two schemes. If the available rule does not support an answer, the system shows the official source instead.",
+    "scope": "The MVP narrows to scheme eligibility only — ITR and GST are deferred, though the domain router, rule engine, and verifier are still built domain-generically so those agents drop in later without rework. Multilingual is a first-class requirement, not a nice-to-have: the app speaks regional languages through TTS and voice input, because the person most likely to miss a scheme they qualify for is the least likely to read a jargon-heavy English PDF. The very first build session targets only the corpus-building toolchain — local-only, no cloud, no database, no API keys — since the corpus is the long pole and the quality ceiling every later component depends on.",
     "objectives": [
-      "Show the result, the reason, and the source used.",
-      "Keep earlier rule versions so a result can be checked later.",
-      "Do not show a final answer when the source does not support it.",
-      "Limit the personal information stored from uploaded documents."
+      "Answer with the exact clause cited, never an unsupported guess — a deterministic rule engine decides eligibility, the LLM only extracts and explains.",
+      "Every fact that can influence a verdict must trace to a verbatim character span in a committed source document; a span-validation gate enforces this in CI.",
+      "Ship voice-first multilingual access (Hindi, Punjabi, Tamil, English) as the accessibility feature, not a later add-on.",
+      "Keep translation off the critical reasoning path: verification runs in English against English clauses, then a round-trip translation check guards the localized answer before it's shown.",
+      "Never fail silently — a defined fallback ladder degrades voice, translation, and low-confidence answers with an honest message at every rung."
     ],
     "functions": [
-      "Guided question and document intake",
-      "Rule category selection and fact extraction",
-      "Deterministic eligibility and ITR checks",
-      "Verification, confidence, and cited answer output",
-      "Rule version management and change history"
+      "Human-gated corpus pipeline: ingest → segment → LLM-assisted draft → span-validate → review → build (rules.json, graph.json, clauses.jsonl)",
+      "Deterministic rule engine over a restricted expression grammar (no eval()), returning ELIGIBLE / NOT_ELIGIBLE / INSUFFICIENT_INFO with the missing attributes",
+      "Verification agent that decomposes each answer into atomic claims and strips anything not backed by a rule fact or a retrieved clause",
+      "Multilingual core: Bhashini/ULCA-backed translate / speak / transcribe behind one swappable provider interface, with entity protection for amounts, dates, and scheme names",
+      "Knowledge graph compiled from the same rule packs (Postgres + recursive CTEs, no separate graph service) for reverse and cross-scheme queries vector search can't answer",
+      "Document extraction with user-confirmed fields, PII redaction before any text reaches an LLM or a log line, and no persistent storage of uploaded documents"
     ],
     "intendedUsers": [
-      "Citizens checking scheme eligibility",
-      "Individuals choosing an appropriate ITR form",
-      "Small businesses interpreting selected public rules",
-      "Administrators maintaining approved rule versions"
+      "Citizens checking scheme eligibility, especially those more comfortable in a regional language than in English",
+      "A family member using voice in their own language to check eligibility on someone else's behalf",
+      "Administrators authoring and reviewing scheme rule packs through the human review gates",
+      "Future ITR / GST users once those domain agents ship — stubbed but not built in the MVP"
     ],
     "externalInterfaces": [
-      "Official policy and scheme sources",
-      "Document text extraction",
-      "Secure file storage",
-      "Email notification service"
+      "Bhashini / ULCA — ASR, NMT, and TTS for the four supported languages",
+      "A free-tier LLM provider (Gemini or Groq) behind a swappable abstraction, used only to draft and explain, never to assert facts",
+      "Tesseract / PaddleOCR for document text extraction, with a manual-entry fallback",
+      "Official ministry guideline PDFs, committed to the repo with a checksum — never scraped, never fetched live at answer time"
     ],
     "architecture": [
       {
         "label": "01",
-        "title": "Frontend",
-        "description": "Pages for entering details, uploading a document, viewing the result and source, and managing rule records."
+        "title": "Web (Next.js)",
+        "description": "Locale-segmented routes, the voice UI (mic button, playback queue, language switcher), and message catalogs for every supported language plus a pseudo-locale for overflow testing."
       },
       {
         "label": "02",
-        "title": "Application API",
-        "description": "Handles sign-in, validation, rule selection, permissions, and communication between the website and stored data."
+        "title": "API — language and agents",
+        "description": "FastAPI routers for chat, voice, documents, and schemes; the LanguageService facade (translate / speak / transcribe); the domain router, scheme agent, and verification agent."
       },
       {
         "label": "03",
-        "title": "Rules and verification",
-        "description": "Runs the selected rule version, attaches the relevant clause, and rejects a result when the evidence is not sufficient."
+        "title": "Rules and graph",
+        "description": "A deterministic rule engine over a restricted grammar, and a knowledge graph compiled from the same rule packs — one authored artifact, two projections, so they can never drift apart."
       },
       {
         "label": "04",
-        "title": "Data and files",
-        "description": "Stores users, rule versions, change records, and uploaded files with separate access controls."
+        "title": "Corpus and scripts",
+        "description": "One scheme.md per scheme: provenance, clauses, and rule conditions together, built through ingest / segment / draft / validate / build scripts with a human gate at every step."
       }
     ],
     "qualityGoals": [
       {
         "title": "Performance",
-        "items": ["A normal rule check should return in under 3 seconds", "Limit document size and processing time", "Keep page assets small and cacheable"]
+        "items": ["Time to first spoken audio under ~3 seconds", "Deterministic rule evaluation stays off the network path", "Translation and audio pre-baked and cached before any live demo"]
       },
       {
-        "title": "Security",
-        "items": ["Give each role only the access it needs", "Validate file type and size", "Use HTTPS and keep secrets out of frontend code"]
+        "title": "Security & privacy",
+        "items": ["Uploaded documents processed in memory and deleted, never stored", "PII regex-redacted before any text reaches an LLM provider or a log line", "Extracted fields live in a session-scoped store with a hard TTL"]
       },
       {
         "title": "Reliability",
-        "items": ["Show no result when evidence is insufficient", "Record which rule version produced each result", "Keep a record of important admin changes"]
+        "items": ["A defined four-rung fallback ladder for voice, translation, and low-confidence answers — never a silent failure", "Circuit breaker on the translation provider so an outage can't hang a request", "Unsupported claims are stripped and, on repeat failure, replaced with an explicit ‘not confident’ response"]
       },
       {
         "title": "Maintainability",
-        "items": ["Keep the main services separate", "Add automated tests for rules and APIs", "Document how rules and presentations are published"]
+        "items": ["Every rule condition and graph edge carries a non-null source_clause_id, enforced in CI", "Rule packs are append-only and versioned, with a diff script showing what changed between versions", "One authored corpus artifact (scheme.md) compiles deterministically into rules, graph, and embeddings"]
       }
     ],
     "risks": [
-      { "risk": "A rule changes after we publish it", "response": "Store its effective date and add a new version instead of replacing the old one." },
-      { "risk": "A document is sensitive or difficult to read", "response": "Validate uploads, store only what is needed, and allow manual input as a fallback." },
-      { "risk": "The source does not support a clear answer", "response": "Do not show a decision. Link the user to the official source." },
-      { "risk": "An external service reaches its free limit", "response": "Set usage limits and keep a manual-input path that does not require OCR." }
+      { "risk": "The translation provider rate-limits or goes down mid-demo", "response": "Provider abstraction plus a Web Speech API fallback, a circuit breaker, and pre-baked translation/audio caches run the night before." },
+      { "risk": "Machine translation corrupts an amount, date, or scheme name", "response": "Entity protection replaces those spans with sentinel tokens before translation and restores them after, with a round-trip test enforcing byte-identical preservation." },
+      { "risk": "LLM-generated facts contaminate the knowledge base", "response": "Non-null source_clause_id plus a verbatim span-validation gate and human review queue; a fabricated-triple fixture must be rejected in CI." },
+      { "risk": "The knowledge graph and the rule engine drift into two different truths", "response": "The graph is compiled from the same rule packs by build.py, never authored separately — a stale graph fails the build." },
+      { "risk": "Scope creeps back to ITR/GST before scheme eligibility is solid", "response": "Router, rule engine, and verifier stay domain-generic, but ITR/GST agents remain explicit stubs returning ‘not yet supported.’" }
     ],
     "milestones": [
-      { "period": "Weeks 1–2", "title": "Requirements and rule model", "owner": "All · Ronit leads" },
-      { "period": "Weeks 3–4", "title": "Data model, auth, and API skeleton", "owner": "Bhavneet" },
-      { "period": "Weeks 5–6", "title": "Intake and document workflow", "owner": "Shreyas" },
-      { "period": "Weeks 7–8", "title": "Rule engine and verifier", "owner": "Ronit" },
-      { "period": "Weeks 9–10", "title": "Integration, security, and tests", "owner": "All" },
-      { "period": "Weeks 11–12", "title": "Deployment, evaluation, and demo", "owner": "All · Bhavneet leads" }
+      { "period": "Sprint 1", "title": "Repo skeleton, provider abstractions, locale registry — SRS draft", "owner": "All" },
+      { "period": "Sprint 2", "title": "Corpus toolchain + first hand-authored scheme.md; deterministic rule engine", "owner": "Ronit" },
+      { "period": "Sprint 3", "title": "Draft/validate/build pipeline; entity-protected translation — design doc", "owner": "Ronit · Bhavneet" },
+      { "period": "Sprint 4", "title": "Graph traversal, verifier v1, TTS playback queue — mid-sem demo speaks all 4 languages", "owner": "All" },
+      { "period": "Sprint 5", "title": "Full voice round-trip, round-trip translation check, translation QA pass", "owner": "All" },
+      { "period": "Sprint 6", "title": "Document upload with PII redaction, multi-hop query set, metrics table", "owner": "Bhavneet · Ronit" },
+      { "period": "Sprint 7", "title": "Deploy, pre-bake demo caches, polish and accessibility — final demo and report", "owner": "All" }
     ],
     "versions": [
       {
+        "version": "v1.1",
+        "date": "11 August 2026",
+        "status": "Current",
+        "summary": "Full development plan added: corpus-first build order, human-gated provenance workflow, multilingual voice layer, and Postgres-based knowledge graph. Scope narrowed to scheme eligibility for the MVP."
+      },
+      {
         "version": "v1.0",
         "date": "5 August 2026",
-        "status": "Current",
+        "status": "Superseded",
         "summary": "First planning presentation and project selection."
       }
     ]
