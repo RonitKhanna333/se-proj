@@ -1,4 +1,70 @@
-// Shared rendering helpers. All content comes from data/team-data.json.
+// Public rendering helpers. Content is sourced exclusively from team-data.json.
+
+async function renderHome() {
+  try {
+    const data = await getTeamData();
+    const selectedProject = data.projects.find(
+      (project) => project.id === data.planningPresentation.selectedProjectId
+    );
+
+    setText("site-course", data.site.course);
+    setText("site-tagline", data.site.tagline);
+    setText("site-description", data.site.description);
+    setText("site-term", data.site.term);
+    setText("selected-project-title", selectedProject?.title || "Selected project");
+    setText("selected-project-description", selectedProject?.description || "");
+
+    renderHomeTeam(data.members);
+    renderHomeProjects(data.projects);
+  } catch (error) {
+    showDataError(error);
+  }
+}
+
+function renderHomeTeam(members) {
+  const grid = document.getElementById("home-team-grid");
+  if (!grid) return;
+
+  grid.innerHTML = members
+    .map(
+      (member, index) => `
+        <article class="person-row">
+          <span class="person-index">0${index + 1}</span>
+          <div class="person-monogram" aria-hidden="true">${escapeHtml(memberInitials(member.name))}</div>
+          <div class="person-copy">
+            <h3>${escapeHtml(member.name)}</h3>
+            <p>${escapeHtml(member.role)}</p>
+          </div>
+          <a class="text-link" href="members/member${member.id}.html" aria-label="View ${escapeHtml(member.name)} profile">Profile <span>↗</span></a>
+        </article>
+      `
+    )
+    .join("");
+}
+
+function renderHomeProjects(projects) {
+  const grid = document.getElementById("home-project-grid");
+  if (!grid) return;
+
+  grid.innerHTML = projects
+    .map(
+      (project) => `
+        <article class="proposal-row ${project.id === 1 ? "proposal-selected" : ""}">
+          <div class="proposal-number">${escapeHtml(project.number)}</div>
+          <div class="proposal-copy">
+            <div class="proposal-meta">
+              <span>${escapeHtml(project.status)}</span>
+              <span>${escapeHtml(project.version)}</span>
+            </div>
+            <h3>${escapeHtml(project.title)}</h3>
+            <p>${escapeHtml(project.description)}</p>
+          </div>
+          <a class="round-link" href="projects/project${project.id}.html" aria-label="Open ${escapeHtml(project.title)} presentation">↗</a>
+        </article>
+      `
+    )
+    .join("");
+}
 
 async function renderMember(id) {
   try {
@@ -6,35 +72,27 @@ async function renderMember(id) {
     const member = data.members.find((item) => item.id === id);
     if (!member) throw new Error(`Member ${id} was not found.`);
 
-    document.title = `${member.name} — Team Portfolio`;
-    document.getElementById("avatar").textContent = memberInitials(member.name);
-    document.getElementById("name").textContent = member.name;
-    document.getElementById("role").textContent = member.role;
-    document.getElementById("bio").textContent = member.bio;
+    document.title = `${member.name} · ${data.site.name}`;
+    setText("member-index", `Team member · 0${id}`);
+    setText("avatar", memberInitials(member.name));
+    setText("name", member.name);
+    setText("role", member.role);
+    setText("bio", member.bio);
+    setText("strength", member.strength);
+    setText("learning-goal", member.learningGoal);
 
-    const strength = document.getElementById("strength");
-    const learningGoal = document.getElementById("learning-goal");
-    if (strength) strength.textContent = member.strength || "Not specified";
-    if (learningGoal) learningGoal.textContent = member.learningGoal || "Not specified";
-
-    const skillsEl = document.getElementById("skills");
-    skillsEl.innerHTML = "";
-
-    if (!member.skills?.length) {
-      skillsEl.innerHTML = '<p class="muted">No skills added yet.</p>';
-      return;
-    }
-
-    member.skills.forEach((skill) => {
-      const level = Math.min(100, Math.max(0, Number(skill.level) || 0));
-      const wrap = document.createElement("div");
-      wrap.className = "skill";
-      wrap.innerHTML = `
-        <div class="skill-label"><span>${escapeHtml(skill.name)}</span><span>${level}%</span></div>
-        <div class="skill-bar"><div class="skill-bar-fill" style="width:${level}%"></div></div>
-      `;
-      skillsEl.appendChild(wrap);
-    });
+    const skills = document.getElementById("skills");
+    skills.innerHTML = member.skills
+      .map((skill) => {
+        const level = Math.min(100, Math.max(0, Number(skill.level) || 0));
+        return `
+          <div class="skill-row">
+            <div class="skill-heading"><span>${escapeHtml(skill.name)}</span><span>${level}</span></div>
+            <div class="skill-track"><span style="width:${level}%"></span></div>
+          </div>
+        `;
+      })
+      .join("");
   } catch (error) {
     showDataError(error);
   }
@@ -46,104 +104,128 @@ async function renderProject(id) {
     const project = data.projects.find((item) => item.id === id);
     if (!project) throw new Error(`Project ${id} was not found.`);
 
-    document.title = `${project.title} — Team Portfolio`;
-    document.getElementById("title").textContent = project.title;
-    document.getElementById("description").textContent = project.description;
+    document.title = `${project.title} · ${data.site.name}`;
+    setText("project-number", `Proposal ${project.number}`);
+    setText("project-status", project.status);
+    setText("title", project.title);
+    setText("description", project.description);
+    setText("project-version", project.version);
+    setText("project-date", project.date);
+    setText("project-authors", project.authors.join(" · "));
+    setText("project-decision", project.decision);
+
+    const status = document.getElementById("project-status");
+    if (status && project.id === data.planningPresentation.selectedProjectId) {
+      status.classList.add("status-selected");
+    }
+
     renderPresentationEmbed(project);
   } catch (error) {
     showDataError(error);
   }
 }
 
-async function renderHomeTeam() {
-  const grid = document.getElementById("home-team-grid");
-  if (!grid) return;
-
-  try {
-    const data = await getTeamData();
-    grid.innerHTML = "";
-
-    data.members.forEach((member) => {
-      const card = document.createElement("article");
-      card.className = "card";
-      card.innerHTML = `
-        <div class="avatar">${escapeHtml(memberInitials(member.name))}</div>
-        <h3 class="centered">${escapeHtml(member.name)}</h3>
-        <p class="centered">${escapeHtml(member.role)}</p>
-        <p class="centered"><a href="members/member${member.id}.html">View profile →</a></p>
-      `;
-      grid.appendChild(card);
-    });
-  } catch (error) {
-    showDataError(error, grid);
-  }
-}
-
-async function renderHomeProjects() {
-  const grid = document.getElementById("home-project-grid");
-  if (!grid) return;
-
-  try {
-    const data = await getTeamData();
-    grid.innerHTML = "";
-
-    data.projects.forEach((project) => {
-      const card = document.createElement("article");
-      card.className = "card";
-      card.innerHTML = `
-        <h3>${escapeHtml(project.title)}</h3>
-        <p>${escapeHtml(project.description)}</p>
-        <p><a href="projects/project${project.id}.html">View slides →</a></p>
-      `;
-      grid.appendChild(card);
-    });
-  } catch (error) {
-    showDataError(error, grid);
-  }
-}
-
 async function renderPlanningPresentation() {
   try {
     const data = await getTeamData();
-    const presentation = data.planningPresentation;
+    const plan = data.planningPresentation;
     const selectedProject = data.projects.find(
-      (project) => project.id === presentation.selectedProjectId
+      (project) => project.id === plan.selectedProjectId
     );
 
-    document.title = `${presentation.title} — Team Portfolio`;
-    document.getElementById("planning-eyebrow").textContent = presentation.eyebrow;
-    document.getElementById("planning-title").textContent = presentation.title;
-    document.getElementById("planning-description").textContent = presentation.description;
-    document.getElementById("selected-project").textContent = selectedProject
-      ? `${selectedProject.title} — ${selectedProject.description}`
-      : "No selected project is configured.";
+    document.title = `${plan.title} · ${data.site.name}`;
+    setText("planning-eyebrow", plan.eyebrow);
+    setText("planning-title", plan.title);
+    setText("planning-description", plan.description);
+    setText("planning-version", plan.version);
+    setText("planning-date", plan.date);
+    setText("planning-status", plan.status);
+    setText("planning-authors", plan.authors.join(" · "));
+    setText("planning-change-summary", plan.changeSummary);
+    setText("selected-project", selectedProject?.title || "Not configured");
+    setText("selected-project-reason", selectedProject?.decision || "");
+    setText("planning-scope", plan.scope);
 
-    const constraints = document.getElementById("planning-constraints");
-    constraints.innerHTML = presentation.constraints
-      .map((constraint) => `<span class="tag">${escapeHtml(constraint)}</span>`)
+    renderTags("planning-constraints", plan.constraints);
+    renderPlainList("planning-objectives", plan.objectives);
+    renderPlainList("planning-functions", plan.functions);
+    renderPlainList("planning-users", plan.intendedUsers);
+    renderPlainList("planning-interfaces", plan.externalInterfaces);
+
+    document.getElementById("architecture-grid").innerHTML = plan.architecture
+      .map(
+        (layer) => `
+          <article class="architecture-row">
+            <span>${escapeHtml(layer.label)}</span>
+            <h3>${escapeHtml(layer.title)}</h3>
+            <p>${escapeHtml(layer.description)}</p>
+          </article>
+        `
+      )
       .join("");
 
-    const team = document.getElementById("planning-team-grid");
-    const memberIds = new Set(presentation.teamMemberIds);
-    team.innerHTML = "";
-    data.members
-      .filter((member) => memberIds.has(member.id))
-      .forEach((member) => {
-        const card = document.createElement("article");
-        card.className = "card planning-member";
-        card.innerHTML = `
-          <div class="avatar avatar-small">${escapeHtml(memberInitials(member.name))}</div>
-          <div>
-            <h3>${escapeHtml(member.name)}</h3>
-            <p class="role-line">${escapeHtml(member.role)}</p>
-            <p><strong>Strength:</strong> ${escapeHtml(member.strength)}</p>
-            <p><strong>Learning goal:</strong> ${escapeHtml(member.learningGoal)}</p>
-          </div>
-        `;
-        team.appendChild(card);
-      });
+    document.getElementById("quality-grid").innerHTML = plan.qualityGoals
+      .map(
+        (goal) => `
+          <article class="quality-block">
+            <h3>${escapeHtml(goal.title)}</h3>
+            <ul>${goal.items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+          </article>
+        `
+      )
+      .join("");
 
-    renderPresentationEmbed(presentation);
+    document.getElementById("risks-list").innerHTML = plan.risks
+      .map(
+        (item, index) => `
+          <article class="risk-row">
+            <span>R${String(index + 1).padStart(2, "0")}</span>
+            <h3>${escapeHtml(item.risk)}</h3>
+            <p>${escapeHtml(item.response)}</p>
+          </article>
+        `
+      )
+      .join("");
+
+    document.getElementById("milestone-list").innerHTML = plan.milestones
+      .map(
+        (milestone, index) => `
+          <article class="milestone-row">
+            <div class="milestone-marker"><span>${index + 1}</span></div>
+            <div><p>${escapeHtml(milestone.period)}</p><h3>${escapeHtml(milestone.title)}</h3></div>
+            <span class="milestone-owner">${escapeHtml(milestone.owner)}</span>
+          </article>
+        `
+      )
+      .join("");
+
+    document.getElementById("version-list").innerHTML = plan.versions
+      .map(
+        (version) => `
+          <article class="version-row">
+            <span class="version-name">${escapeHtml(version.version)}</span>
+            <span>${escapeHtml(version.date)}</span>
+            <span>${escapeHtml(version.status)}</span>
+            <p>${escapeHtml(version.summary)}</p>
+          </article>
+        `
+      )
+      .join("");
+
+    const memberIds = new Set(plan.teamMemberIds);
+    document.getElementById("planning-team-grid").innerHTML = data.members
+      .filter((member) => memberIds.has(member.id))
+      .map(
+        (member) => `
+          <article class="plan-owner">
+            <span>${escapeHtml(memberInitials(member.name))}</span>
+            <div><h3>${escapeHtml(member.name)}</h3><p>${escapeHtml(member.role)}</p></div>
+          </article>
+        `
+      )
+      .join("");
+
+    renderPresentationEmbed(plan);
   } catch (error) {
     showDataError(error);
   }
@@ -151,20 +233,15 @@ async function renderPlanningPresentation() {
 
 function renderPresentationEmbed(presentation) {
   const wrapper = document.getElementById("embed-wrapper");
-  const downloadEl = document.getElementById("download-link");
+  const download = document.getElementById("download-link");
   if (!wrapper) return;
 
   if (!presentation.pptxUrl?.trim()) {
-    wrapper.innerHTML = `
-      <div class="embed-placeholder">
-        <strong>No presentation linked yet</strong>
-        <p>Add the PPTX path to <code>data/team-data.json</code> and commit both files.</p>
-      </div>
-    `;
+    wrapper.innerHTML = '<div class="embed-placeholder"><strong>No presentation is linked.</strong></div>';
     return;
   }
 
-  const absoluteUrl = getSiteAssetUrl(presentation.pptxUrl.trim());
+  const assetUrl = getSiteAssetUrl(presentation.pptxUrl.trim());
   const isLocalPreview =
     window.location.protocol === "file:" ||
     ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
@@ -172,21 +249,38 @@ function renderPresentationEmbed(presentation) {
   if (isLocalPreview) {
     wrapper.innerHTML = `
       <div class="embed-placeholder">
+        <span class="document-mark">PPTX</span>
         <strong>Embedded preview available after deployment</strong>
-        <p>Microsoft Office Viewer needs a publicly reachable URL. Use the download button here, or open the deployed site for the embedded deck.</p>
+        <p>Microsoft Office Viewer needs a public URL. The source deck remains available through the download link.</p>
       </div>
     `;
   } else {
     const viewerUrl =
-      "https://view.officeapps.live.com/op/embed.aspx?src=" +
-      encodeURIComponent(absoluteUrl);
+      "https://view.officeapps.live.com/op/embed.aspx?src=" + encodeURIComponent(assetUrl);
     wrapper.innerHTML = `<iframe src="${viewerUrl}" title="${escapeHtml(presentation.title)}" allowfullscreen></iframe>`;
   }
 
-  if (downloadEl) {
-    downloadEl.href = absoluteUrl;
-    downloadEl.style.display = "inline-block";
+  if (download) {
+    download.href = assetUrl;
+    download.hidden = false;
   }
+}
+
+function renderTags(id, items) {
+  const target = document.getElementById(id);
+  if (!target) return;
+  target.innerHTML = items.map((item) => `<span>${escapeHtml(item)}</span>`).join("");
+}
+
+function renderPlainList(id, items) {
+  const target = document.getElementById(id);
+  if (!target) return;
+  target.innerHTML = items.map((item) => `<li>${escapeHtml(item)}</li>`).join("");
+}
+
+function setText(id, value) {
+  const target = document.getElementById(id);
+  if (target) target.textContent = value ?? "";
 }
 
 function memberInitials(name) {
@@ -201,20 +295,17 @@ function memberInitials(name) {
   );
 }
 
-function showDataError(error, target = document.querySelector("main") || document.querySelector(".container")) {
+function showDataError(error, target = document.querySelector("main")) {
   console.error(error);
   if (!target) return;
   const message = document.createElement("div");
-  message.className = "card data-error";
-  message.innerHTML = `
-    <strong>Could not load the site data.</strong>
-    <p>${escapeHtml(error.message)} If you opened the files directly, run a local web server instead.</p>
-  `;
+  message.className = "data-error";
+  message.innerHTML = `<strong>Site data could not be loaded.</strong><p>${escapeHtml(error.message)}</p>`;
   target.prepend(message);
 }
 
 function escapeHtml(value) {
-  const div = document.createElement("div");
-  div.textContent = value ?? "";
-  return div.innerHTML;
+  const element = document.createElement("div");
+  element.textContent = value ?? "";
+  return element.innerHTML;
 }

@@ -1,47 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Member 3 — Team Portfolio</title>
-<link rel="stylesheet" href="../css/style.css">
-</head>
-<body>
-<header class="navbar">
-  <a class="brand" href="../index.html">Team Project</a>
-  <nav>
-    <a href="../index.html">Home</a>
-    <a href="member1.html">Member 1</a>
-    <a href="member2.html">Member 2</a>
-    <a href="member3.html" class="active">Member 3</a>
-    <a href="../projects/project1.html">Project 1</a>
-    <a href="../projects/project2.html">Project 2</a>
-    <a href="../projects/project3.html">Project 3</a>
-    <a href="../projects/project4.html">Project 4</a>
-    <a href="../planning-presentation.html">Planning Presentation</a>
-    <a href="../admin.html">Admin</a>
-  </nav>
-</header>
-<main class="container">
-  <div class="profile-header">
-    <div class="avatar" id="avatar">?</div>
-    <div><h1 id="name">Loading…</h1><p class="role" id="role"></p></div>
-  </div>
-  <div class="two-col">
-    <section>
-      <h2 class="section-title no-top-margin">About</h2>
-      <p id="bio" class="muted"></p>
-      <dl class="profile-facts">
-        <div><dt>Core strength</dt><dd id="strength"></dd></div>
-        <div><dt>Learning goal</dt><dd id="learning-goal"></dd></div>
-      </dl>
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team member · GovAssist</title><link rel="stylesheet" href="../css/style.css">
+</head><body>
+  <header class="site-header"><div class="nav-shell">
+    <a class="wordmark" href="../index.html"><span class="wordmark-mark">GA</span><span class="wordmark-copy"><strong>GovAssist</strong><small>Public-rule decision support</small></span></a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav class="site-nav" id="site-nav" aria-label="Primary navigation"><a href="../index.html">Overview</a><a href="../planning-presentation.html">Planning v1</a><a href="../index.html#presentations">Presentations</a><a class="active" href="../index.html#team">Team</a><a class="admin-link" href="../admin.html">Admin</a></nav>
+  </div></header>
+  <main>
+    <section class="member-hero"><div class="container"><p class="eyebrow" id="member-index">Team member</p><div class="member-heading"><div class="member-monogram" id="avatar">?</div><div><h1 id="name">Loading…</h1><p class="member-role" id="role"></p></div></div></div></section>
+    <section class="container member-content">
+      <div><p class="member-bio" id="bio"></p><dl class="profile-facts"><div><dt>Core strength</dt><dd id="strength"></dd></div><div><dt>Learning goal</dt><dd id="learning-goal"></dd></div></dl></div>
+      <aside class="skills-panel"><p class="eyebrow">Working profile</p><h2>Core capabilities</h2><div id="skills"></div></aside>
     </section>
-    <section><h2 class="section-title no-top-margin">Skills</h2><div id="skills"></div></section>
-  </div>
-</main>
-<footer>&copy; 2026 Team Project. Built for our group assignment.</footer>
-<script src="../js/data.js"></script>
-<script src="../js/render.js"></script>
-<script>renderMember(3);</script>
-</body>
-</html>
+  </main>
+  <footer class="site-footer"><div class="container footer-main"><div class="footer-brand"><h2>GovAssist</h2><p>Public rules, made traceable.</p></div><div class="footer-meta"><div><span>Course</span><strong>UCS503</strong></div><div><span>Stage</span><strong>Planning v1</strong></div><div><span>Team</span><strong>3 members</strong></div></div></div><div class="container footer-bottom"><span>© 2026 GovAssist team</span><span>Member profile</span></div></footer>
+  <script src="../js/data.js"></script><script src="../js/render.js"></script><script src="../js/site.js"></script><script>renderMember(3);</script>
+</body></html>

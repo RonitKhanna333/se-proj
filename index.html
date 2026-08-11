@@ -1,53 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Team Portfolio</title>
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="GovAssist — versioned public-rule decision support with verified, cited answers.">
+  <title>GovAssist · Public rules, made traceable</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <header class="site-header">
+    <div class="nav-shell">
+      <a class="wordmark" href="index.html" aria-label="GovAssist home">
+        <span class="wordmark-mark">GA</span>
+        <span class="wordmark-copy"><strong>GovAssist</strong><small>Public-rule decision support</small></span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
+        <a class="active" href="index.html">Overview</a>
+        <a href="planning-presentation.html">Planning v1</a>
+        <a href="#presentations">Presentations</a>
+        <a href="#team">Team</a>
+        <a class="admin-link" href="admin.html">Admin</a>
+      </nav>
+    </div>
+  </header>
 
-<header class="navbar">
-  <a class="brand" href="index.html">Team Project</a>
-  <nav>
-    <a href="index.html" class="active">Home</a>
-    <a href="members/member1.html">Member 1</a>
-    <a href="members/member2.html">Member 2</a>
-    <a href="members/member3.html">Member 3</a>
-    <a href="projects/project1.html">Project 1</a>
-    <a href="projects/project2.html">Project 2</a>
-    <a href="projects/project3.html">Project 3</a>
-    <a href="projects/project4.html">Project 4</a>
-    <a href="planning-presentation.html">Planning Presentation</a>
-    <a href="admin.html">Admin</a>
-  </nav>
-</header>
+  <main>
+    <section class="container home-hero">
+      <div>
+        <p class="eyebrow" id="site-course">UCS503 · Software Engineering</p>
+        <h1 class="display-title" id="site-tagline">Public rules, <em>made traceable.</em></h1>
+        <p class="hero-lead" id="site-description">A decision-support system for navigating public schemes and tax rules with versioned logic, verification, and cited evidence.</p>
+        <div class="hero-actions">
+          <a class="button" href="planning-presentation.html">Open Planning v1 <span>→</span></a>
+          <a class="button button-secondary" href="projects/project1.html">Review GovAssist</a>
+        </div>
+      </div>
 
-<main>
-  <section class="hero">
-    <p class="eyebrow">Software Engineering Course Project</p>
-    <h1>Our Team Portfolio</h1>
-    <p>Meet the team, compare our project proposals, and view the presentation that shaped our final direction.</p>
-    <a class="btn hero-action" href="planning-presentation.html">View planning presentation</a>
-  </section>
+      <aside class="hero-brief" aria-label="Project brief">
+        <span class="hero-brief-label">Selected direction</span>
+        <h2 id="selected-project-title">GovAssist</h2>
+        <p id="selected-project-description"></p>
+        <ul class="brief-meta">
+          <li><span>Stage</span><strong>Planning v1</strong></li>
+          <li><span>Team</span><strong>3 members</strong></li>
+          <li><span>Delivery</span><strong>One semester</strong></li>
+          <li><span>Cycle</span><strong id="site-term">2026</strong></li>
+        </ul>
+      </aside>
+    </section>
 
-  <div class="container">
-    <h2 class="section-title">Meet the Team</h2>
-    <div class="grid" id="home-team-grid" aria-live="polite"></div>
+    <section class="system-strip" aria-label="GovAssist system flow">
+      <div class="container system-strip-inner">
+        <div class="system-strip-title">System at a glance</div>
+        <div class="system-step"><span>01</span> Ask or upload</div>
+        <div class="system-step"><span>02</span> Extract facts</div>
+        <div class="system-step"><span>03</span> Apply rules</div>
+        <div class="system-step"><span>04</span> Verify</div>
+        <div class="system-step"><span>05</span> Cite evidence</div>
+      </div>
+    </section>
 
-    <h2 class="section-title">Project Showcase</h2>
-    <div class="grid" id="home-project-grid" aria-live="polite"></div>
-  </div>
-</main>
+    <section class="section-block">
+      <div class="container">
+        <header class="section-header">
+          <span class="section-number">01 · Product</span>
+          <div>
+            <h2 class="section-title">A dependable decision path, not another opaque chatbot.</h2>
+            <p class="section-intro">GovAssist is planned around reproducible rules and visible evidence. When the system cannot support a conclusion, it should say so.</p>
+          </div>
+        </header>
 
-<footer>&copy; 2026 Team Project. Built for our group assignment.</footer>
+        <div class="build-grid">
+          <p class="build-statement">Users should be able to see which rule applied, why it applied, and which source supports the result.</p>
+          <ol class="build-list">
+            <li><div><strong>Versioned rule logic</strong><p>Published rules retain dates and history instead of being silently overwritten.</p></div></li>
+            <li><div><strong>Deterministic checks</strong><p>Eligibility and ITR decisions follow explicit conditions before any explanatory layer.</p></div></li>
+            <li><div><strong>Verification gate</strong><p>Unsupported answers are blocked and uncertain cases fall back to official evidence.</p></div></li>
+            <li><div><strong>Privacy-aware intake</strong><p>Typed input remains available and document handling is intentionally constrained.</p></div></li>
+          </ol>
+        </div>
+      </div>
+    </section>
 
-<script src="js/data.js"></script>
-<script src="js/render.js"></script>
-<script>
-  renderHomeTeam();
-  renderHomeProjects();
-</script>
+    <section class="selected-band">
+      <div class="container selected-band-inner">
+        <div><p class="eyebrow light">Current baseline</p><h2>Planning v1</h2></div>
+        <p>The permanent planning record covers scope, users, interfaces, architecture, quality targets, risks, ownership, milestones, and the source presentation.</p>
+        <a class="button button-light" href="planning-presentation.html">View deliverable <span>→</span></a>
+      </div>
+    </section>
+
+    <section class="section-block" id="team">
+      <div class="container">
+        <header class="section-header">
+          <span class="section-number">02 · Team</span>
+          <div>
+            <h2 class="section-title">Three owners. One shared system.</h2>
+            <p class="section-intro">Each member leads a vertical slice while integration, testing, documentation, and the final demonstration remain shared responsibilities.</p>
+          </div>
+        </header>
+        <div class="people-list" id="home-team-grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="section-block" id="presentations">
+      <div class="container">
+        <header class="section-header">
+          <span class="section-number">03 · Archive</span>
+          <div>
+            <h2 class="section-title">Proposal and presentation record.</h2>
+            <p class="section-intro">GovAssist is the selected direction. The other proposals remain published so the decision history is preserved rather than replaced.</p>
+          </div>
+        </header>
+        <div class="proposal-list" id="home-project-grid" aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-main">
+      <div class="footer-brand"><h2>GovAssist</h2><p>Public rules, made traceable.</p></div>
+      <div class="footer-meta">
+        <div><span>Course</span><strong>UCS503</strong></div>
+        <div><span>Deliverable</span><strong>Planning Presentation v1</strong></div>
+        <div><span>Team</span><strong>Ronit · Bhavneet · Shreyas</strong></div>
+      </div>
+    </div>
+    <div class="container footer-bottom"><span>© 2026 GovAssist team</span><span>Software Engineering course project</span></div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/site.js"></script>
+  <script>renderHome();</script>
 </body>
 </html>

@@ -1,83 +1,207 @@
 {
+  "site": {
+    "name": "GovAssist",
+    "course": "UCS503 · Software Engineering",
+    "tagline": "Public rules, made traceable.",
+    "description": "A decision-support system for navigating public schemes and tax rules with versioned logic, verification, and cited evidence.",
+    "term": "Planning cycle · 2026"
+  },
   "members": [
     {
       "id": 1,
       "name": "Ronit",
-      "role": "Algorithms and Evaluation Lead",
-      "bio": "Owns reasoning, evaluation, and algorithmic components across the team's project proposals, with an emphasis on measurable and reliable results.",
+      "role": "Rules and Evaluation",
+      "bio": "Designs the deterministic rule engine, retrieval strategy, verification gates, and the evaluation framework used to test answer quality.",
       "strength": "Algorithms, AI/ML, retrieval, and evaluation",
       "learningGoal": "Full-stack integration and reliable web delivery",
       "skills": [
-        { "name": "Algorithms", "level": 90 },
-        { "name": "AI/ML and Retrieval", "level": 85 },
-        { "name": "Evaluation", "level": 85 }
+        { "name": "Rule modelling", "level": 90 },
+        { "name": "Retrieval and verification", "level": 86 },
+        { "name": "Evaluation design", "level": 84 }
       ]
     },
     {
       "id": 2,
       "name": "Bhavneet",
-      "role": "Backend and Cloud Lead",
-      "bio": "Owns backend services, databases, APIs, security, and deployment, turning project requirements into dependable system infrastructure.",
+      "role": "Backend and Platform",
+      "bio": "Owns the service layer, versioned data model, secure document handling, APIs, deployment pipeline, and operational reliability.",
       "strength": "Backend engineering, databases, and APIs",
       "learningGoal": "Cloud deployment, CI/CD, and observability",
       "skills": [
-        { "name": "Backend Engineering", "level": 90 },
+        { "name": "Backend engineering", "level": 90 },
         { "name": "Databases and APIs", "level": 88 },
-        { "name": "Cloud and CI/CD", "level": 75 }
+        { "name": "Cloud delivery", "level": 76 }
       ]
     },
     {
       "id": 3,
       "name": "Shreyas",
-      "role": "Frontend and Integration Lead",
-      "bio": "Owns interface design, user experience, requirements, testing, and the integration of document-driven workflows into a clear web experience.",
+      "role": "Product and Frontend",
+      "bio": "Translates policy-heavy workflows into a calm interface and owns requirements, document intake, accessibility, frontend testing, and system integration.",
       "strength": "Frontend engineering, UI/UX, and requirements",
       "learningGoal": "Document extraction, evaluation, and system integration",
       "skills": [
-        { "name": "Frontend Engineering", "level": 90 },
-        { "name": "UI/UX and Requirements", "level": 88 },
-        { "name": "System Integration", "level": 78 }
+        { "name": "Frontend engineering", "level": 90 },
+        { "name": "UI/UX and requirements", "level": 88 },
+        { "name": "System integration", "level": 80 }
       ]
     }
   ],
   "projects": [
     {
       "id": 1,
+      "number": "01",
       "title": "GovAssist",
+      "status": "Selected direction",
+      "version": "Planning v1",
+      "date": "5 August 2026",
+      "authors": ["Ronit", "Bhavneet", "Shreyas"],
       "description": "A versioned public-policy assistant that applies deterministic checks, verifies its output, and returns cited evidence instead of unsupported answers.",
+      "decision": "Selected for its clear engineering depth, measurable verification layer, and strong end-to-end demonstration.",
       "pptxUrl": "GovAssist.pptx"
     },
     {
       "id": 2,
-      "title": "Lost and Found Portal",
+      "number": "02",
+      "title": "FoundIt",
+      "status": "Proposal archive",
+      "version": "Feasibility study",
+      "date": "5 August 2026",
+      "authors": ["Ronit", "Bhavneet", "Shreyas"],
       "description": "A controlled lost-and-found workflow with structured reports, transparent match ranking, claim verification, notifications, and one recorded handover per item.",
+      "decision": "Retained as an achievable alternative, but not selected because campus adoption and differentiation remain uncertain.",
       "pptxUrl": "LostAndFoundPortal.pptx"
     },
     {
       "id": 3,
-      "title": "Placement Readiness Platform",
+      "number": "03",
+      "title": "LaunchPad",
+      "status": "Proposal archive",
+      "version": "Feasibility study",
+      "date": "5 August 2026",
+      "authors": ["Ronit", "Bhavneet", "Shreyas"],
       "description": "A placement-readiness system that maps skill evidence to versioned company criteria, identifies eligibility gaps, and builds focused roadmaps.",
+      "decision": "Retained for its measurable value, but ranked below GovAssist because reliable institutional criteria are difficult to source.",
       "pptxUrl": "PlacementReadinessPlatform.pptx"
     },
     {
       "id": 4,
-      "title": "Semester Workload Balancer",
+      "number": "04",
+      "title": "Foresight",
+      "status": "Proposal archive",
+      "version": "Feasibility study",
+      "date": "5 August 2026",
+      "authors": ["Ronit", "Bhavneet", "Shreyas"],
       "description": "A workload-forecasting and constraint-aware planning tool that detects overloaded weeks and moves only work that can be completed earlier.",
+      "decision": "The strongest algorithmic alternative, but it depends on a historical effort dataset that must first be created.",
       "pptxUrl": "SemesterWorkloadBalancer.pptx"
     }
   ],
   "planningPresentation": {
-    "title": "Planning Presentation",
-    "eyebrow": "Software Engineering Course Project",
-    "description": "Four project proposals compared by problem, engineering contribution, validation plan, feasibility, privacy, and delivery risk. GovAssist is the selected proposal.",
+    "title": "Planning Presentation v1",
+    "eyebrow": "UCS503 · Permanent deliverable page",
+    "version": "v1.0",
+    "date": "5 August 2026",
+    "status": "Current baseline",
+    "authors": ["Ronit", "Bhavneet", "Shreyas"],
+    "changeSummary": "Initial planning baseline: four proposals evaluated and GovAssist selected for implementation.",
+    "description": "The planning record for GovAssist: project scope, intended users, system boundaries, quality targets, risks, ownership, and delivery milestones.",
     "pptxUrl": "PlanningPresentation.pptx",
     "selectedProjectId": 1,
     "teamMemberIds": [1, 2, 3],
     "constraints": [
       "Three members",
       "One semester",
-      "Free-tier deployment",
+      "Free-tier conscious",
       "No dedicated GPU"
+    ],
+    "scope": "GovAssist helps citizens and small businesses map their facts to applicable public-scheme and tax rules. The MVP covers typed inputs, ITR selection, and two schemes; uncertain cases must abstain and point to the official source.",
+    "objectives": [
+      "Return a decision with understandable reasoning and direct evidence.",
+      "Keep rule versions explicit so an answer can be reproduced later.",
+      "Block unsupported conclusions before they reach the user.",
+      "Handle uploaded documents without exposing unnecessary personal data."
+    ],
+    "functions": [
+      "Guided question and document intake",
+      "Policy-domain routing and fact extraction",
+      "Deterministic eligibility and ITR checks",
+      "Verification, confidence, and cited answer output",
+      "Versioned rule administration and audit history"
+    ],
+    "intendedUsers": [
+      "Citizens checking scheme eligibility",
+      "Individuals choosing an appropriate ITR form",
+      "Small businesses interpreting selected public rules",
+      "Administrators maintaining approved rule versions"
+    ],
+    "externalInterfaces": [
+      "Official policy and scheme sources",
+      "Document/OCR processing interface",
+      "Secure file storage",
+      "Email notification service"
+    ],
+    "architecture": [
+      {
+        "label": "01",
+        "title": "Frontend",
+        "description": "Responsive intake, document upload, decision summary, citations, and an administrative rule interface."
+      },
+      {
+        "label": "02",
+        "title": "Application API",
+        "description": "Authentication, validation, policy routing, orchestration, and access control around every request."
+      },
+      {
+        "label": "03",
+        "title": "Rules and verification",
+        "description": "Versioned deterministic checks, retrieved clauses, confidence handling, and a gate for unsupported claims."
+      },
+      {
+        "label": "04",
+        "title": "Data and files",
+        "description": "Relational metadata, immutable rule versions, audit events, and private object storage for documents."
+      }
+    ],
+    "qualityGoals": [
+      {
+        "title": "Performance",
+        "items": ["Useful first response target under 3 seconds", "Bounded document size and processing time", "Static assets cached aggressively"]
+      },
+      {
+        "title": "Security",
+        "items": ["Least-privilege access", "File type and size validation", "TLS in transit and no secrets in the client"]
+      },
+      {
+        "title": "Reliability",
+        "items": ["Abstain when evidence is insufficient", "Reproducible answers against a rule version", "Audit important administrative changes"]
+      },
+      {
+        "title": "Maintainability",
+        "items": ["Modular service boundaries", "Automated rule and API tests", "Documented version and publishing workflow"]
+      }
+    ],
+    "risks": [
+      { "risk": "Rules change without notice", "response": "Store effective dates and never overwrite a published rule version." },
+      { "risk": "Sensitive or poor-quality documents", "response": "Minimise retention, validate uploads, and allow typed-input fallback." },
+      { "risk": "The system sounds certain when evidence is weak", "response": "Require citations and make the verifier abstain on unsupported output." },
+      { "risk": "External services hit free-tier limits", "response": "Set quotas, monitor usage, and retain a deterministic no-OCR path." }
+    ],
+    "milestones": [
+      { "period": "Weeks 1–2", "title": "Requirements and rule model", "owner": "All · Ronit leads" },
+      { "period": "Weeks 3–4", "title": "Data model, auth, and API skeleton", "owner": "Bhavneet" },
+      { "period": "Weeks 5–6", "title": "Intake and document workflow", "owner": "Shreyas" },
+      { "period": "Weeks 7–8", "title": "Rule engine and verifier", "owner": "Ronit" },
+      { "period": "Weeks 9–10", "title": "Integration, security, and tests", "owner": "All" },
+      { "period": "Weeks 11–12", "title": "Deployment, evaluation, and demo", "owner": "All · Bhavneet leads" }
+    ],
+    "versions": [
+      {
+        "version": "v1.0",
+        "date": "5 August 2026",
+        "status": "Current",
+        "summary": "Initial planning baseline and project selection."
+      }
     ]
   }
 }

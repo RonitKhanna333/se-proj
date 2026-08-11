@@ -1,72 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin — Team Portfolio</title>
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="GovAssist content publication console.">
+  <title>Publication console · GovAssist</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-<header class="navbar">
-  <a class="brand" href="index.html">Team Project</a>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="members/member1.html">Member 1</a>
-    <a href="members/member2.html">Member 2</a>
-    <a href="members/member3.html">Member 3</a>
-    <a href="projects/project1.html">Project 1</a>
-    <a href="projects/project2.html">Project 2</a>
-    <a href="projects/project3.html">Project 3</a>
-    <a href="projects/project4.html">Project 4</a>
-    <a href="planning-presentation.html">Planning Presentation</a>
-    <a href="admin.html" class="active">Admin</a>
-  </nav>
-</header>
-
-<main class="container">
-  <p class="eyebrow">Repository content editor</p>
-  <h1>Edit site data</h1>
-
-  <div class="card admin-notice">
-    <strong>One source of truth</strong>
-    <p>
-      Every public page fetches <code>data/team-data.json</code>. Edit the fields below,
-      export the JSON, replace that file in the repository, and commit it to publish the changes.
-      Browser storage is not used as a hidden data source.
-    </p>
-  </div>
-
-  <form id="admin-form">
-    <h2 class="section-title">Team Members</h2>
-    <div id="members-fields"></div>
-
-    <h2 class="section-title">Project Presentations</h2>
-    <div id="projects-fields"></div>
-
-    <h2 class="section-title">Planning Presentation</h2>
-    <div id="planning-fields"></div>
-
-    <div class="button-row">
-      <button type="submit" class="btn">Generate JSON export</button>
-      <button type="button" id="reload-btn" class="btn btn-secondary">Reload committed data</button>
+  <header class="site-header">
+    <div class="nav-shell">
+      <a class="wordmark" href="index.html"><span class="wordmark-mark">GA</span><span class="wordmark-copy"><strong>GovAssist</strong><small>Public-rule decision support</small></span></a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      <nav class="site-nav" id="site-nav" aria-label="Primary navigation"><a href="index.html">Overview</a><a href="planning-presentation.html">Planning v1</a><a href="index.html#presentations">Presentations</a><a href="index.html#team">Team</a><a class="admin-link active" href="admin.html">Admin</a></nav>
     </div>
-  </form>
+  </header>
 
-  <section id="export-output" class="export-output">
-    <h2 class="section-title">Generated data/team-data.json</h2>
-    <p class="muted">Download this file and replace <code>data/team-data.json</code> in the repository.</p>
-    <textarea id="export-textarea" readonly class="export-textarea"></textarea>
-    <div class="button-row">
-      <button type="button" id="download-json-btn" class="btn">Download team-data.json</button>
-      <button type="button" id="copy-btn" class="btn btn-secondary">Copy JSON</button>
+  <main class="container admin-shell">
+    <header class="admin-header">
+      <p class="eyebrow">Content administration</p>
+      <h1>Publication console</h1>
+      <p>Edit the public metadata used across GovAssist, then export a complete replacement for the repository’s canonical JSON file.</p>
+    </header>
+
+    <div class="admin-notice">
+      <strong>Single source of truth</strong>
+      <p>All public pages fetch <code>data/team-data.json</code>. Generate the export below, replace that file in the repository, and commit it to publish a permanent version. Browser storage is not used.</p>
     </div>
-  </section>
-</main>
 
-<footer>&copy; 2026 Team Project. Built for our group assignment.</footer>
+    <form id="admin-form">
+      <h2 class="admin-section-title">Team members</h2>
+      <div id="members-fields"></div>
 
-<script src="js/data.js"></script>
-<script src="js/admin.js"></script>
+      <h2 class="admin-section-title">Project presentations</h2>
+      <div id="projects-fields"></div>
+
+      <h2 class="admin-section-title">Planning Presentation v1</h2>
+      <div id="planning-fields"></div>
+
+      <div class="button-row">
+        <button type="submit" class="btn">Generate JSON export</button>
+        <button type="button" id="reload-btn" class="btn btn-secondary">Reload committed data</button>
+      </div>
+    </form>
+
+    <section id="export-output" class="export-output">
+      <p class="eyebrow">Repository export</p>
+      <h2 class="admin-section-title">Generated data/team-data.json</h2>
+      <textarea id="export-textarea" readonly class="export-textarea" aria-label="Generated JSON"></textarea>
+      <div class="button-row">
+        <button type="button" id="download-json-btn" class="btn">Download team-data.json</button>
+        <button type="button" id="copy-btn" class="btn btn-secondary">Copy JSON</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-main"><div class="footer-brand"><h2>GovAssist</h2><p>Public rules, made traceable.</p></div><div class="footer-meta"><div><span>Course</span><strong>UCS503</strong></div><div><span>Interface</span><strong>Content administration</strong></div><div><span>Format</span><strong>Versioned JSON export</strong></div></div></div>
+    <div class="container footer-bottom"><span>© 2026 GovAssist team</span><span>Publication console</span></div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/site.js"></script>
 </body>
 </html>

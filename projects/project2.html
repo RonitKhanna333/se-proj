@@ -1,16 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Project 2 — Team Portfolio</title><link rel="stylesheet" href="../css/style.css">
-</head>
-<body>
-<header class="navbar"><a class="brand" href="../index.html">Team Project</a><nav>
-  <a href="../index.html">Home</a><a href="../members/member1.html">Member 1</a><a href="../members/member2.html">Member 2</a><a href="../members/member3.html">Member 3</a>
-  <a href="project1.html">Project 1</a><a href="project2.html" class="active">Project 2</a><a href="project3.html">Project 3</a><a href="project4.html">Project 4</a>
-  <a href="../planning-presentation.html">Planning Presentation</a><a href="../admin.html">Admin</a>
-</nav></header>
-<main class="container"><p class="eyebrow">Project presentation</p><h1 id="title">Loading…</h1><p id="description" class="project-description"></p><div class="embed-wrapper" id="embed-wrapper"></div><a id="download-link" class="btn" href="#" target="_blank" rel="noopener" style="display:none;">Download PPTX</a></main>
-<footer>&copy; 2026 Team Project. Built for our group assignment.</footer>
-<script src="../js/data.js"></script><script src="../js/render.js"></script><script>renderProject(2);</script>
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Presentation · GovAssist</title><link rel="stylesheet" href="../css/style.css">
+</head><body>
+  <header class="site-header"><div class="nav-shell"><a class="wordmark" href="../index.html"><span class="wordmark-mark">GA</span><span class="wordmark-copy"><strong>GovAssist</strong><small>Public-rule decision support</small></span></a><button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav"><a href="../index.html">Overview</a><a href="../planning-presentation.html">Planning v1</a><a class="active" href="../index.html#presentations">Presentations</a><a href="../index.html#team">Team</a><a class="admin-link" href="../admin.html">Admin</a></nav></div></header>
+  <main>
+    <section class="page-hero"><div class="container page-hero-grid"><div><p class="eyebrow" id="project-number">Proposal</p><span class="status-label" id="project-status"></span><h1 class="page-title" id="title">Loading…</h1><p class="page-lead" id="description"></p></div><ul class="page-meta"><li><span>Version</span><strong id="project-version"></strong></li><li><span>Date</span><strong id="project-date"></strong></li><li><span>Authors</span><strong id="project-authors"></strong></li></ul></div></section>
+    <section class="container decision-note"><span>Decision note</span><p id="project-decision"></p></section>
+    <section class="container presentation-section"><div class="presentation-heading"><div><p class="eyebrow">Source artifact</p><h2>Project presentation</h2></div><a class="button button-secondary" id="download-link" href="#" hidden target="_blank" rel="noopener">Download PPTX ↓</a></div><div class="embed-wrapper" id="embed-wrapper"></div></section>
+  </main>
+  <footer class="site-footer"><div class="container footer-main"><div class="footer-brand"><h2>GovAssist</h2><p>Public rules, made traceable.</p></div><div class="footer-meta"><div><span>Course</span><strong>UCS503</strong></div><div><span>Record</span><strong>Proposal archive</strong></div><div><span>Team</span><strong>Ronit · Bhavneet · Shreyas</strong></div></div></div><div class="container footer-bottom"><span>© 2026 GovAssist team</span><span>Permanent presentation page</span></div></footer>
+  <script src="../js/data.js"></script><script src="../js/render.js"></script><script src="../js/site.js"></script><script>renderProject(2);</script>
 </body></html>

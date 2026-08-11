@@ -1,69 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Planning Presentation — Team Portfolio</title>
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="GovAssist Planning Presentation v1 — scope, architecture, quality targets, risks, ownership, and milestones.">
+  <title>Planning Presentation v1 · GovAssist</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-<header class="navbar">
-  <a class="brand" href="index.html">Team Project</a>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="members/member1.html">Member 1</a>
-    <a href="members/member2.html">Member 2</a>
-    <a href="members/member3.html">Member 3</a>
-    <a href="projects/project1.html">Project 1</a>
-    <a href="projects/project2.html">Project 2</a>
-    <a href="projects/project3.html">Project 3</a>
-    <a href="projects/project4.html">Project 4</a>
-    <a href="planning-presentation.html" class="active">Planning Presentation</a>
-    <a href="admin.html">Admin</a>
-  </nav>
-</header>
-
-<main>
-  <section class="planning-hero">
-    <div class="container planning-hero-inner">
-      <div>
-        <p class="eyebrow" id="planning-eyebrow">Loading…</p>
-        <h1 id="planning-title">Planning Presentation</h1>
-        <p class="planning-lead" id="planning-description"></p>
-        <div class="tag-list" id="planning-constraints"></div>
-      </div>
-      <aside class="selection-card">
-        <span>Selected direction</span>
-        <p id="selected-project">Loading…</p>
-      </aside>
+  <header class="site-header">
+    <div class="nav-shell">
+      <a class="wordmark" href="index.html" aria-label="GovAssist home">
+        <span class="wordmark-mark">GA</span>
+        <span class="wordmark-copy"><strong>GovAssist</strong><small>Public-rule decision support</small></span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
+        <a href="index.html">Overview</a>
+        <a class="active" href="planning-presentation.html">Planning v1</a>
+        <a href="index.html#presentations">Presentations</a>
+        <a href="index.html#team">Team</a>
+        <a class="admin-link" href="admin.html">Admin</a>
+      </nav>
     </div>
-  </section>
+  </header>
 
-  <div class="container">
-    <section>
-      <div class="section-heading-row">
+  <main>
+    <section class="planning-hero">
+      <div class="container planning-hero-inner">
         <div>
-          <p class="eyebrow">Decision record</p>
-          <h2 class="section-title compact-title">Proposal deck</h2>
+          <p class="eyebrow light" id="planning-eyebrow">UCS503 · Permanent deliverable page</p>
+          <h1 class="page-title" id="planning-title">Planning Presentation v1</h1>
+          <p class="page-lead" id="planning-description"></p>
+          <div class="plan-tags" id="planning-constraints"></div>
         </div>
-        <a id="download-link" class="btn" href="#" target="_blank" rel="noopener" style="display:none;">Download PPTX</a>
+        <aside>
+          <ul class="page-meta planning-meta">
+            <li><span>Version</span><strong id="planning-version">v1.0</strong></li>
+            <li><span>Date</span><strong id="planning-date">5 August 2026</strong></li>
+            <li><span>Status</span><strong id="planning-status">Current baseline</strong></li>
+            <li><span>Authors</span><strong id="planning-authors"></strong></li>
+          </ul>
+          <div class="plan-change"><span>Change summary</span><p id="planning-change-summary"></p></div>
+        </aside>
       </div>
+    </section>
+
+    <section class="container plan-summary">
+      <div class="plan-selected">
+        <span>Selected project</span>
+        <h2 id="selected-project">GovAssist</h2>
+        <p id="selected-project-reason"></p>
+      </div>
+      <div class="plan-scope">
+        <h2>Scope and boundary</h2>
+        <p id="planning-scope"></p>
+      </div>
+    </section>
+
+    <section class="section-block">
+      <div class="container">
+        <header class="section-header">
+          <span class="section-number">01 · Requirements</span>
+          <div><h2 class="section-title">What the system must do—and for whom.</h2></div>
+        </header>
+        <div class="requirements-grid">
+          <article class="requirement-block"><h3>Objectives</h3><ul class="plain-list" id="planning-objectives"></ul></article>
+          <article class="requirement-block"><h3>Core functions</h3><ul class="plain-list" id="planning-functions"></ul></article>
+          <article class="requirement-block"><h3>Intended users</h3><ul class="plain-list" id="planning-users"></ul></article>
+          <article class="requirement-block"><h3>External interfaces</h3><ul class="plain-list" id="planning-interfaces"></ul></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-block">
+      <div class="container">
+        <header class="section-header">
+          <span class="section-number">02 · Architecture</span>
+          <div>
+            <h2 class="section-title">Four layers with explicit responsibilities.</h2>
+            <p class="section-intro">The proposed architecture separates user experience, application control, rule evaluation, and durable records so each part can be tested and explained independently.</p>
+          </div>
+        </header>
+        <div class="architecture-list" id="architecture-grid"></div>
+      </div>
+    </section>
+
+    <section class="section-block">
+      <div class="container">
+        <header class="section-header">
+          <span class="section-number">03 · Quality</span>
+          <div><h2 class="section-title">Targets beyond feature completion.</h2><p class="section-intro">Performance, security, reliability, usability, and maintainability are planned as observable engineering requirements.</p></div>
+        </header>
+        <div class="quality-grid" id="quality-grid"></div>
+      </div>
+    </section>
+
+    <section class="section-block">
+      <div class="container">
+        <header class="section-header">
+          <span class="section-number">04 · Risk</span>
+          <div><h2 class="section-title">Known failure modes and planned responses.</h2></div>
+        </header>
+        <div class="risk-list" id="risks-list"></div>
+      </div>
+    </section>
+
+    <section class="section-block">
+      <div class="container">
+        <header class="section-header">
+          <span class="section-number">05 · Delivery</span>
+          <div><h2 class="section-title">Twelve-week milestone plan.</h2><p class="section-intro">Dependencies move from rule modelling and platform foundations into intake, verification, integration, and the public demonstration.</p></div>
+        </header>
+        <div class="milestone-list" id="milestone-list"></div>
+      </div>
+    </section>
+
+    <section class="selected-band">
+      <div class="container selected-band-inner">
+        <div><p class="eyebrow light">Source artifact</p><h2>Planning deck</h2></div>
+        <p>The presentation is hosted inside this permanent page and remains downloadable as the original PPTX.</p>
+        <a class="button button-light" id="download-link" href="#" hidden target="_blank" rel="noopener">Download PPTX <span>↓</span></a>
+      </div>
+    </section>
+
+    <section class="container presentation-section">
+      <div class="presentation-heading"><div><p class="eyebrow">Embedded presentation</p><h2>Software project grid</h2></div></div>
       <div class="embed-wrapper" id="embed-wrapper"></div>
     </section>
 
-    <section>
-      <p class="eyebrow">Owners</p>
-      <h2 class="section-title compact-title">Planning team</h2>
-      <div class="grid planning-team-grid" id="planning-team-grid"></div>
+    <section class="section-block">
+      <div class="container">
+        <header class="section-header">
+          <span class="section-number">06 · Ownership</span>
+          <div><h2 class="section-title">Named leads, shared delivery.</h2></div>
+        </header>
+        <div class="planning-team-grid" id="planning-team-grid"></div>
+      </div>
     </section>
-  </div>
-</main>
 
-<footer>&copy; 2026 Team Project. Built for our group assignment.</footer>
+    <section class="section-block">
+      <div class="container">
+        <header class="section-header">
+          <span class="section-number">07 · History</span>
+          <div><h2 class="section-title">Published versions remain accessible.</h2><p class="section-intro">A future v2 will be added as a separate permanent page if the plan changes; v1 will remain intact.</p></div>
+        </header>
+        <div class="version-list" id="version-list"></div>
+      </div>
+    </section>
+  </main>
 
-<script src="js/data.js"></script>
-<script src="js/render.js"></script>
-<script>renderPlanningPresentation();</script>
+  <footer class="site-footer">
+    <div class="container footer-main">
+      <div class="footer-brand"><h2>GovAssist</h2><p>Public rules, made traceable.</p></div>
+      <div class="footer-meta">
+        <div><span>Course</span><strong>UCS503</strong></div>
+        <div><span>Deliverable</span><strong>Planning Presentation v1</strong></div>
+        <div><span>Authors</span><strong>Ronit · Bhavneet · Shreyas</strong></div>
+      </div>
+    </div>
+    <div class="container footer-bottom"><span>© 2026 GovAssist team</span><span>Versioned permanent deliverable</span></div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/site.js"></script>
+  <script>renderPlanningPresentation();</script>
 </body>
 </html>

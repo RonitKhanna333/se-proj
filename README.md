@@ -1,67 +1,65 @@
-# Team Portfolio Website
+# GovAssist Project Website
 
-A static portfolio for the three-person software-engineering team. It includes member profiles, four proposal decks, and a dedicated Planning Presentation page that records how the team compared the proposals and selected GovAssist.
+The permanent UCS503 project website for GovAssist: a versioned public-rule decision-support system designed to return traceable decisions, verification status, and cited evidence.
 
-**Live site (after GitHub Pages is enabled):** `https://RonitKhanna333.github.io/se-proj/`
+**Production:** [se-proj-gamma.vercel.app](https://se-proj-gamma.vercel.app/)
 
-## Structure
+## Website structure
 
 ```text
-index.html                         Home page
-planning-presentation.html         Planning deck, selected direction, and team
-members/member1.html ... 3.html    Member profiles
-projects/project1.html ... 4.html  Individual proposal presentations
-admin.html                         JSON export editor
-data/team-data.json                Canonical site content
-js/data.js                         Fetches and validates the JSON
-js/render.js                       Renders public pages
-js/admin.js                        Edits and exports the JSON
-PlanningPresentation.pptx          Planning presentation source deck
-css/style.css                      Shared stylesheet
+index.html                         GovAssist overview, system flow, team, and proposal archive
+planning-presentation.html         Permanent Planning Presentation v1 page
+members/member1.html ... 3.html    Member profiles and responsibilities
+projects/project1.html ... 4.html  Selected proposal and feasibility archive
+admin.html                         JSON publication console
+data/team-data.json                Canonical content and planning record
+js/data.js                         Fetches and validates the canonical JSON
+js/render.js                       Renders all public, data-driven content
+js/site.js                         Responsive navigation behavior
+js/admin.js                        Admin editor and JSON export
+PlanningPresentation.pptx          Planning v1 source deck
+css/style.css                      Shared responsive design system
 ```
+
+## Planning Presentation v1 coverage
+
+The permanent planning page includes:
+
+- scope, objectives, functions, intended users, and external interfaces;
+- frontend, application, rules/verification, data, and file architecture;
+- performance, security, reliability, and maintainability targets;
+- technical risks and planned responses;
+- twelve-week milestones, dependencies, and named owners;
+- version, date, authors, change summary, source PPTX, and version history.
+
+If the plan changes, publish v2 as a separate permanent page and retain v1.
 
 ## Content workflow
 
-`data/team-data.json` is the single source of truth. Member details, project descriptions, presentation paths, planning-page copy, constraints, and the selected proposal are fetched from this committed file. Public pages do not read `localStorage` and do not contain a second copy of the data in JavaScript.
+`data/team-data.json` is the single source of truth for the public site. To publish a metadata change:
 
-To publish a content change:
-
-1. Serve the repository over HTTP and open `admin.html`.
-2. Edit the fields and click **Generate JSON export**.
+1. Open `admin.html` through the deployed site or a local HTTP server.
+2. Edit the fields and choose **Generate JSON export**.
 3. Download `team-data.json`.
-4. Replace `data/team-data.json` with the download.
-5. Commit and push the JSON file.
+4. Replace `data/team-data.json` in the repository.
+5. Commit and deploy the change.
 
-You can also edit `data/team-data.json` directly.
-
-## Run locally
-
-The browser blocks JSON fetching when HTML files are opened directly with `file://`. Start any static web server from the repository root, for example:
+## Local preview
 
 ```bash
 python -m http.server 8000
 ```
 
-Then open `http://localhost:8000/`.
+Open `http://localhost:8000/`. Microsoft Office Viewer requires a public URL, so local pages show a presentation placeholder while retaining the direct PPTX download.
 
-## Presentations
+## Deployment
 
-PPTX paths in `data/team-data.json` are resolved from the repository root, so they work both on Vercel and under the `/se-proj/` GitHub Pages path. Deployed pages use Microsoft Office Online Viewer and also provide a direct PPTX download.
-
-## Deploying
-
-### Vercel
-
-This is a plain static site with no build command. Import the repository in Vercel with the framework preset set to **Other**. `vercel.json` already serves the repository root.
-
-### GitHub Pages
-
-In repository settings, enable Pages from the `main` branch and `/root` folder.
+This is a framework-free static site. `vercel.json` serves the repository root without a build step. Production deployments follow the repository’s Vercel integration.
 
 ## Team
 
-| Member | Responsibility |
+| Member | Ownership |
 |---|---|
-| Ronit | Algorithms and evaluation |
-| Bhavneet | Backend and cloud |
-| Shreyas | Frontend and integration |
+| Ronit | Rules and evaluation |
+| Bhavneet | Backend and platform |
+| Shreyas | Product and frontend |
