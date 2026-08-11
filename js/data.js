@@ -1,65 +1,45 @@
-// Default content for the site. The admin page (admin.html) lets team
-// members edit this data; edits are saved to localStorage for live preview
-// in that browser, and can be exported here to make them permanent for
-// everyone (see admin.html "Export data.js").
+// The committed JSON file is the single source of truth for all public pages.
+// Resolve it relative to this script so the site works at a domain root, under
+// GitHub Pages' /se-proj/ path, and from nested member/project pages.
 
-const defaultTeamData = {
-  members: [
-    {
-      id: 1,
-      name: "Member One",
-      role: "Role / Title",
-      bio: "Add a short bio here from the admin page.",
-      skills: [
-        { name: "Skill A", level: 70 },
-        { name: "Skill B", level: 60 }
-      ]
-    },
-    {
-      id: 2,
-      name: "Member Two",
-      role: "Role / Title",
-      bio: "Add a short bio here from the admin page.",
-      skills: [
-        { name: "Skill A", level: 70 },
-        { name: "Skill B", level: 60 }
-      ]
-    },
-    {
-      id: 3,
-      name: "Member Three",
-      role: "Role / Title",
-      bio: "Add a short bio here from the admin page.",
-      skills: [
-        { name: "Skill A", level: 70 },
-        { name: "Skill B", level: 60 }
-      ]
-    }
-  ],
-  projects: [
-    { id: 1, title: "GovAssist", description: "Add a short description from the admin page.", pptxUrl: "/GovAssist.pptx" },
-    { id: 2, title: "Lost And Found Portal", description: "Add a short description from the admin page.", pptxUrl: "/LostAndFoundPortal.pptx" },
-    { id: 3, title: "Placement Readiness Platform", description: "Add a short description from the admin page.", pptxUrl: "/PlacementReadinessPlatform.pptx" },
-    { id: 4, title: "Semester Workload Balancer", description: "Add a short description from the admin page.", pptxUrl: "/SemesterWorkloadBalancer.pptx" }
-  ]
-};
+const TEAM_DATA_URL = new URL("../data/team-data.json", document.currentScript.src).href;
+let teamDataPromise = null;
 
-const TEAM_DATA_STORAGE_KEY = "teamData";
-
-function getTeamData() {
-  try {
-    const raw = localStorage.getItem(TEAM_DATA_STORAGE_KEY);
-    if (raw) return JSON.parse(raw);
-  } catch (e) {
-    console.warn("Could not read saved team data, using defaults.", e);
+function validateTeamData(data) {
+  if (!data || !Array.isArray(data.members) || !Array.isArray(data.projects)) {
+    throw new Error("data/team-data.json is missing the members or projects collection.");
   }
-  return defaultTeamData;
+
+  if (!data.planningPresentation) {
+    throw new Error("data/team-data.json is missing planningPresentation.");
+  }
+
+  return data;
 }
 
-function saveTeamData(data) {
-  localStorage.setItem(TEAM_DATA_STORAGE_KEY, JSON.stringify(data));
+async function getTeamData(options = {}) {
+  if (options.fresh || !teamDataPromise) {
+    teamDataPromise = fetch(TEAM_DATA_URL, { cache: options.fresh ? "no-store" : "default" })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Could not load team data (${response.status}).`);
+        }
+        return response.json();
+      })
+      .then(validateTeamData)
+      .catch((error) => {
+        teamDataPromise = null;
+        throw error;
+      });
+  }
+
+  return teamDataPromise;
 }
 
-function hasSavedTeamData() {
-  return localStorage.getItem(TEAM_DATA_STORAGE_KEY) !== null;
+function getSiteAssetUrl(assetPath) {
+  if (!assetPath) return "";
+  if (/^https?:\/\//i.test(assetPath)) return assetPath;
+
+  const cleanPath = assetPath.replace(/^\/+/, "");
+  return new URL(`../${cleanPath}`, TEAM_DATA_URL).href;
 }

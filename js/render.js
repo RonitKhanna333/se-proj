@@ -1,152 +1,220 @@
-// Shared rendering helpers used by members/memberN.html and projects/projectN.html
+// Shared rendering helpers. All content comes from data/team-data.json.
 
-function renderMember(id) {
-  const data = getTeamData();
-  const member = data.members.find((m) => m.id === id);
-  if (!member) return;
+async function renderMember(id) {
+  try {
+    const data = await getTeamData();
+    const member = data.members.find((item) => item.id === id);
+    if (!member) throw new Error(`Member ${id} was not found.`);
 
-  document.title = `${member.name} — Team Portfolio`;
+    document.title = `${member.name} — Team Portfolio`;
+    document.getElementById("avatar").textContent = memberInitials(member.name);
+    document.getElementById("name").textContent = member.name;
+    document.getElementById("role").textContent = member.role;
+    document.getElementById("bio").textContent = member.bio;
 
-  const initials = member.name
-    .split(" ")
-    .map((w) => w[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
+    const strength = document.getElementById("strength");
+    const learningGoal = document.getElementById("learning-goal");
+    if (strength) strength.textContent = member.strength || "Not specified";
+    if (learningGoal) learningGoal.textContent = member.learningGoal || "Not specified";
 
-  document.getElementById("avatar").textContent = initials || "?";
-  document.getElementById("name").textContent = member.name;
-  document.getElementById("role").textContent = member.role;
-  document.getElementById("bio").textContent = member.bio;
+    const skillsEl = document.getElementById("skills");
+    skillsEl.innerHTML = "";
 
-  const skillsEl = document.getElementById("skills");
-  skillsEl.innerHTML = "";
+    if (!member.skills?.length) {
+      skillsEl.innerHTML = '<p class="muted">No skills added yet.</p>';
+      return;
+    }
 
-  if (!member.skills || member.skills.length === 0) {
-    skillsEl.innerHTML = '<p style="color:var(--text-dim);">No skills added yet.</p>';
-  } else {
     member.skills.forEach((skill) => {
+      const level = Math.min(100, Math.max(0, Number(skill.level) || 0));
       const wrap = document.createElement("div");
       wrap.className = "skill";
       wrap.innerHTML = `
-        <div class="skill-label"><span>${escapeHtml(skill.name)}</span><span>${skill.level}%</span></div>
-        <div class="skill-bar"><div class="skill-bar-fill" style="width:${skill.level}%"></div></div>
+        <div class="skill-label"><span>${escapeHtml(skill.name)}</span><span>${level}%</span></div>
+        <div class="skill-bar"><div class="skill-bar-fill" style="width:${level}%"></div></div>
       `;
       skillsEl.appendChild(wrap);
     });
-  }
-
-  if (!hasSavedTeamData()) {
-    const hint = document.getElementById("hint");
-    if (hint) {
-      hint.style.display = "block";
-    }
+  } catch (error) {
+    showDataError(error);
   }
 }
 
-function renderProject(id) {
-  const data = getTeamData();
-  const project = data.projects.find((p) => p.id === id);
-  if (!project) return;
+async function renderProject(id) {
+  try {
+    const data = await getTeamData();
+    const project = data.projects.find((item) => item.id === id);
+    if (!project) throw new Error(`Project ${id} was not found.`);
 
-  document.title = `${project.title} — Team Portfolio`;
-  document.getElementById("title").textContent = project.title;
-  document.getElementById("description").textContent = project.description;
+    document.title = `${project.title} — Team Portfolio`;
+    document.getElementById("title").textContent = project.title;
+    document.getElementById("description").textContent = project.description;
+    renderPresentationEmbed(project);
+  } catch (error) {
+    showDataError(error);
+  }
+}
 
-  const wrapper = document.getElementById("embed-wrapper");
+async function renderHomeTeam() {
+  const grid = document.getElementById("home-team-grid");
+  if (!grid) return;
 
-  if (project.pptxUrl && project.pptxUrl.trim() !== "") {
-    const absoluteUrl = new URL(project.pptxUrl.trim(), window.location.href).href;
-    const isLocalFile = absoluteUrl.startsWith("file:");
+  try {
+    const data = await getTeamData();
+    grid.innerHTML = "";
 
-    if (isLocalFile) {
-      // Office's viewer can't reach a file:// URL on your own machine — it
-      // only works once the site is deployed (e.g. on Vercel) so the pptx
-      // has a real public URL. Offer a direct download instead for now.
-      wrapper.innerHTML = `
-        <div class="embed-placeholder">
-          <strong>Preview available after deployment</strong>
-          <p>The Office viewer needs a public URL, which only exists once this site is deployed (e.g. on Vercel). Locally, use the download link below.</p>
-        </div>
+    data.members.forEach((member) => {
+      const card = document.createElement("article");
+      card.className = "card";
+      card.innerHTML = `
+        <div class="avatar">${escapeHtml(memberInitials(member.name))}</div>
+        <h3 class="centered">${escapeHtml(member.name)}</h3>
+        <p class="centered">${escapeHtml(member.role)}</p>
+        <p class="centered"><a href="members/member${member.id}.html">View profile →</a></p>
       `;
-    } else {
-      const viewerUrl =
-        "https://view.officeapps.live.com/op/embed.aspx?src=" +
-        encodeURIComponent(absoluteUrl);
-      wrapper.innerHTML = `<iframe src="${viewerUrl}" title="${escapeHtml(project.title)}" allowfullscreen></iframe>`;
-    }
+      grid.appendChild(card);
+    });
+  } catch (error) {
+    showDataError(error, grid);
+  }
+}
 
-    const downloadEl = document.getElementById("download-link");
-    if (downloadEl) {
-      downloadEl.href = absoluteUrl;
-      downloadEl.style.display = "inline-block";
-    }
-  } else {
+async function renderHomeProjects() {
+  const grid = document.getElementById("home-project-grid");
+  if (!grid) return;
+
+  try {
+    const data = await getTeamData();
+    grid.innerHTML = "";
+
+    data.projects.forEach((project) => {
+      const card = document.createElement("article");
+      card.className = "card";
+      card.innerHTML = `
+        <h3>${escapeHtml(project.title)}</h3>
+        <p>${escapeHtml(project.description)}</p>
+        <p><a href="projects/project${project.id}.html">View slides →</a></p>
+      `;
+      grid.appendChild(card);
+    });
+  } catch (error) {
+    showDataError(error, grid);
+  }
+}
+
+async function renderPlanningPresentation() {
+  try {
+    const data = await getTeamData();
+    const presentation = data.planningPresentation;
+    const selectedProject = data.projects.find(
+      (project) => project.id === presentation.selectedProjectId
+    );
+
+    document.title = `${presentation.title} — Team Portfolio`;
+    document.getElementById("planning-eyebrow").textContent = presentation.eyebrow;
+    document.getElementById("planning-title").textContent = presentation.title;
+    document.getElementById("planning-description").textContent = presentation.description;
+    document.getElementById("selected-project").textContent = selectedProject
+      ? `${selectedProject.title} — ${selectedProject.description}`
+      : "No selected project is configured.";
+
+    const constraints = document.getElementById("planning-constraints");
+    constraints.innerHTML = presentation.constraints
+      .map((constraint) => `<span class="tag">${escapeHtml(constraint)}</span>`)
+      .join("");
+
+    const team = document.getElementById("planning-team-grid");
+    const memberIds = new Set(presentation.teamMemberIds);
+    team.innerHTML = "";
+    data.members
+      .filter((member) => memberIds.has(member.id))
+      .forEach((member) => {
+        const card = document.createElement("article");
+        card.className = "card planning-member";
+        card.innerHTML = `
+          <div class="avatar avatar-small">${escapeHtml(memberInitials(member.name))}</div>
+          <div>
+            <h3>${escapeHtml(member.name)}</h3>
+            <p class="role-line">${escapeHtml(member.role)}</p>
+            <p><strong>Strength:</strong> ${escapeHtml(member.strength)}</p>
+            <p><strong>Learning goal:</strong> ${escapeHtml(member.learningGoal)}</p>
+          </div>
+        `;
+        team.appendChild(card);
+      });
+
+    renderPresentationEmbed(presentation);
+  } catch (error) {
+    showDataError(error);
+  }
+}
+
+function renderPresentationEmbed(presentation) {
+  const wrapper = document.getElementById("embed-wrapper");
+  const downloadEl = document.getElementById("download-link");
+  if (!wrapper) return;
+
+  if (!presentation.pptxUrl?.trim()) {
     wrapper.innerHTML = `
       <div class="embed-placeholder">
         <strong>No presentation linked yet</strong>
-        <p>
-          1. Commit your <code>.pptx</code> file into this repo (e.g. <code>/MyProject.pptx</code> at the root).<br>
-          2. On the <a href="../admin.html">admin page</a>, paste that path (e.g. <code>/MyProject.pptx</code>) into this project's PPTX field, Save, then Export and commit the updated <code>data.js</code>.<br>
-          3. The embed above will work once the site is live on Vercel (Office's viewer needs a public URL, not a local file).
-        </p>
+        <p>Add the PPTX path to <code>data/team-data.json</code> and commit both files.</p>
       </div>
     `;
+    return;
+  }
+
+  const absoluteUrl = getSiteAssetUrl(presentation.pptxUrl.trim());
+  const isLocalPreview =
+    window.location.protocol === "file:" ||
+    ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
+
+  if (isLocalPreview) {
+    wrapper.innerHTML = `
+      <div class="embed-placeholder">
+        <strong>Embedded preview available after deployment</strong>
+        <p>Microsoft Office Viewer needs a publicly reachable URL. Use the download button here, or open the deployed site for the embedded deck.</p>
+      </div>
+    `;
+  } else {
+    const viewerUrl =
+      "https://view.officeapps.live.com/op/embed.aspx?src=" +
+      encodeURIComponent(absoluteUrl);
+    wrapper.innerHTML = `<iframe src="${viewerUrl}" title="${escapeHtml(presentation.title)}" allowfullscreen></iframe>`;
+  }
+
+  if (downloadEl) {
+    downloadEl.href = absoluteUrl;
+    downloadEl.style.display = "inline-block";
   }
 }
 
 function memberInitials(name) {
-  return (name || "")
-    .split(" ")
-    .map((w) => w[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase() || "?";
+  return (
+    (name || "")
+      .split(/\s+/)
+      .filter(Boolean)
+      .map((word) => word[0])
+      .join("")
+      .slice(0, 2)
+      .toUpperCase() || "?"
+  );
 }
 
-// Populates the "Meet the Team" card grid on index.html from data.js
-function renderHomeTeam() {
-  const grid = document.getElementById("home-team-grid");
-  if (!grid) return;
-
-  const data = getTeamData();
-  grid.innerHTML = "";
-
-  data.members.forEach((member) => {
-    const card = document.createElement("div");
-    card.className = "card";
-    card.innerHTML = `
-      <div class="avatar">${escapeHtml(memberInitials(member.name))}</div>
-      <h3 style="text-align:center;">${escapeHtml(member.name)}</h3>
-      <p style="text-align:center;">${escapeHtml(member.role)}</p>
-      <p style="text-align:center;"><a href="members/member${member.id}.html">View Profile →</a></p>
-    `;
-    grid.appendChild(card);
-  });
+function showDataError(error, target = document.querySelector("main") || document.querySelector(".container")) {
+  console.error(error);
+  if (!target) return;
+  const message = document.createElement("div");
+  message.className = "card data-error";
+  message.innerHTML = `
+    <strong>Could not load the site data.</strong>
+    <p>${escapeHtml(error.message)} If you opened the files directly, run a local web server instead.</p>
+  `;
+  target.prepend(message);
 }
 
-// Populates the "Project Showcase" card grid on index.html from data.js
-function renderHomeProjects() {
-  const grid = document.getElementById("home-project-grid");
-  if (!grid) return;
-
-  const data = getTeamData();
-  grid.innerHTML = "";
-
-  data.projects.forEach((project) => {
-    const card = document.createElement("div");
-    card.className = "card";
-    card.innerHTML = `
-      <h3>${escapeHtml(project.title)}</h3>
-      <p>${escapeHtml(project.description)}</p>
-      <p><a href="projects/project${project.id}.html">View Slides →</a></p>
-    `;
-    grid.appendChild(card);
-  });
-}
-
-function escapeHtml(str) {
+function escapeHtml(value) {
   const div = document.createElement("div");
-  div.textContent = str ?? "";
+  div.textContent = value ?? "";
   return div.innerHTML;
 }

@@ -67,7 +67,7 @@ img { max-width: 100%; display: block; }
 
 .navbar nav {
   display: flex;
-  gap: 1.5rem;
+  gap: 1.15rem;
   flex-wrap: wrap;
 }
 
@@ -118,6 +118,37 @@ img { max-width: 100%; display: block; }
   margin: 0 auto;
 }
 
+.eyebrow {
+  margin: 0 0 0.5rem;
+  color: var(--accent2);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hero .eyebrow {
+  color: var(--accent2);
+  font-size: 0.78rem;
+}
+
+.hero-action {
+  margin-top: 1.5rem;
+}
+
+.muted,
+.project-description {
+  color: var(--text-dim);
+}
+
+.project-description {
+  max-width: 760px;
+}
+
+.centered {
+  text-align: center;
+}
+
 h2.section-title {
   font-size: 1.4rem;
   font-weight: 600;
@@ -135,6 +166,14 @@ h2.section-title::after {
   width: 48px;
   height: 2px;
   background: var(--accent2);
+}
+
+.compact-title {
+  margin-top: 0;
+}
+
+.no-top-margin {
+  margin-top: 0 !important;
 }
 
 /* Grid of cards */
@@ -252,6 +291,32 @@ h2.section-title::after {
   font-weight: 600;
 }
 
+.profile-facts {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1.5rem 0 0;
+}
+
+.profile-facts div {
+  padding: 1rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.profile-facts dt {
+  color: var(--accent2);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.profile-facts dd {
+  margin: 0.3rem 0 0;
+  color: var(--text-dim);
+}
+
 .two-col {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -327,6 +392,117 @@ ul.plain li {
   text-decoration: none;
 }
 
+.btn-secondary {
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-alt);
+  border-color: var(--accent);
+}
+
+/* Planning presentation */
+.planning-hero {
+  border-bottom: 1px solid var(--border);
+  background:
+    radial-gradient(circle at 16% 20%, rgba(20, 184, 166, 0.14), transparent 32%),
+    radial-gradient(circle at 82% 0%, rgba(37, 99, 235, 0.2), transparent 38%),
+    var(--bg-alt);
+}
+
+.planning-hero-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(260px, 0.7fr);
+  align-items: end;
+  gap: 3rem;
+  padding-top: 4.5rem;
+  padding-bottom: 4.5rem;
+}
+
+.planning-hero h1 {
+  margin: 0;
+  font-size: clamp(2.5rem, 7vw, 5.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+}
+
+.planning-lead {
+  max-width: 720px;
+  margin: 1.25rem 0 0;
+  color: var(--text-dim);
+  font-size: 1.08rem;
+}
+
+.selection-card {
+  padding: 1.5rem;
+  border: 1px solid rgba(20, 184, 166, 0.35);
+  border-radius: var(--radius);
+  background: rgba(13, 17, 23, 0.72);
+  box-shadow: 0 24px 60px -36px rgba(20, 184, 166, 0.75);
+}
+
+.selection-card span {
+  color: var(--accent2);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.selection-card p {
+  margin: 0.7rem 0 0;
+  color: var(--text);
+}
+
+.section-heading-row {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.planning-team-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.planning-member {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+}
+
+.planning-member h3 {
+  margin-bottom: 0.2rem;
+}
+
+.planning-member p {
+  margin: 0.45rem 0;
+}
+
+.planning-member strong {
+  color: var(--text);
+}
+
+.avatar-small {
+  width: 56px;
+  height: 56px;
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.role-line {
+  color: var(--accent2) !important;
+  font-weight: 600;
+}
+
+.data-error {
+  border-color: #ef4444;
+  margin-bottom: 1.5rem;
+}
+
 /* Admin form */
 #admin-form label {
   display: block;
@@ -351,6 +527,111 @@ ul.plain li {
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+.admin-notice {
+  margin: 1.5rem 0 2rem;
+  border-color: var(--accent);
+}
+
+.admin-notice p {
+  margin-bottom: 0;
+}
+
+.admin-card {
+  margin-bottom: 1.5rem;
+}
+
+.skill-editor-row {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(90px, 0.6fr) auto;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.remove-skill-btn {
+  padding: 0.45rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+}
+
+.remove-skill-btn:hover {
+  border-color: #ef4444;
+  color: #fca5a5;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.export-output {
+  display: none;
+  margin-top: 2rem;
+}
+
+.export-textarea {
+  width: 100%;
+  min-height: 360px;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--text);
+  font-family: Consolas, monospace;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 900px) {
+  .navbar {
+    align-items: flex-start;
+  }
+
+  .navbar nav {
+    width: 100%;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 0.35rem;
+  }
+
+  .navbar nav a {
+    flex: 0 0 auto;
+  }
+
+  .planning-hero-inner {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .planning-team-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .navbar {
+    padding: 0.85rem 1rem;
+  }
+
+  .planning-hero-inner {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  .section-heading-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .skill-editor-row {
+    grid-template-columns: 1fr 90px auto;
+  }
 }
 
 footer {

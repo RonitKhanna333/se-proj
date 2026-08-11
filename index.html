@@ -19,28 +19,29 @@
     <a href="projects/project2.html">Project 2</a>
     <a href="projects/project3.html">Project 3</a>
     <a href="projects/project4.html">Project 4</a>
+    <a href="planning-presentation.html">Planning Presentation</a>
     <a href="admin.html">Admin</a>
   </nav>
 </header>
 
-<section class="hero">
-  <h1>Our Team Portfolio</h1>
-  <p>A group project showcase — meet the team and browse our project presentations.</p>
-</section>
+<main>
+  <section class="hero">
+    <p class="eyebrow">Software Engineering Course Project</p>
+    <h1>Our Team Portfolio</h1>
+    <p>Meet the team, compare our project proposals, and view the presentation that shaped our final direction.</p>
+    <a class="btn hero-action" href="planning-presentation.html">View planning presentation</a>
+  </section>
 
-<div class="container">
+  <div class="container">
+    <h2 class="section-title">Meet the Team</h2>
+    <div class="grid" id="home-team-grid" aria-live="polite"></div>
 
-  <h2 class="section-title">Meet the Team</h2>
-  <div class="grid" id="home-team-grid"></div>
+    <h2 class="section-title">Project Showcase</h2>
+    <div class="grid" id="home-project-grid" aria-live="polite"></div>
+  </div>
+</main>
 
-  <h2 class="section-title">Project Showcase</h2>
-  <div class="grid" id="home-project-grid"></div>
-
-</div>
-
-<footer>
-  &copy; 2026 Team Project. Built for our group assignment.
-</footer>
+<footer>&copy; 2026 Team Project. Built for our group assignment.</footer>
 
 <script src="js/data.js"></script>
 <script src="js/render.js"></script>

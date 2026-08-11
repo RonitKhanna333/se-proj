@@ -1,0 +1,83 @@
+{
+  "members": [
+    {
+      "id": 1,
+      "name": "Ronit",
+      "role": "Algorithms and Evaluation Lead",
+      "bio": "Owns reasoning, evaluation, and algorithmic components across the team's project proposals, with an emphasis on measurable and reliable results.",
+      "strength": "Algorithms, AI/ML, retrieval, and evaluation",
+      "learningGoal": "Full-stack integration and reliable web delivery",
+      "skills": [
+        { "name": "Algorithms", "level": 90 },
+        { "name": "AI/ML and Retrieval", "level": 85 },
+        { "name": "Evaluation", "level": 85 }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Bhavneet",
+      "role": "Backend and Cloud Lead",
+      "bio": "Owns backend services, databases, APIs, security, and deployment, turning project requirements into dependable system infrastructure.",
+      "strength": "Backend engineering, databases, and APIs",
+      "learningGoal": "Cloud deployment, CI/CD, and observability",
+      "skills": [
+        { "name": "Backend Engineering", "level": 90 },
+        { "name": "Databases and APIs", "level": 88 },
+        { "name": "Cloud and CI/CD", "level": 75 }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Shreyas",
+      "role": "Frontend and Integration Lead",
+      "bio": "Owns interface design, user experience, requirements, testing, and the integration of document-driven workflows into a clear web experience.",
+      "strength": "Frontend engineering, UI/UX, and requirements",
+      "learningGoal": "Document extraction, evaluation, and system integration",
+      "skills": [
+        { "name": "Frontend Engineering", "level": 90 },
+        { "name": "UI/UX and Requirements", "level": 88 },
+        { "name": "System Integration", "level": 78 }
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "title": "GovAssist",
+      "description": "A versioned public-policy assistant that applies deterministic checks, verifies its output, and returns cited evidence instead of unsupported answers.",
+      "pptxUrl": "GovAssist.pptx"
+    },
+    {
+      "id": 2,
+      "title": "Lost and Found Portal",
+      "description": "A controlled lost-and-found workflow with structured reports, transparent match ranking, claim verification, notifications, and one recorded handover per item.",
+      "pptxUrl": "LostAndFoundPortal.pptx"
+    },
+    {
+      "id": 3,
+      "title": "Placement Readiness Platform",
+      "description": "A placement-readiness system that maps skill evidence to versioned company criteria, identifies eligibility gaps, and builds focused roadmaps.",
+      "pptxUrl": "PlacementReadinessPlatform.pptx"
+    },
+    {
+      "id": 4,
+      "title": "Semester Workload Balancer",
+      "description": "A workload-forecasting and constraint-aware planning tool that detects overloaded weeks and moves only work that can be completed earlier.",
+      "pptxUrl": "SemesterWorkloadBalancer.pptx"
+    }
+  ],
+  "planningPresentation": {
+    "title": "Planning Presentation",
+    "eyebrow": "Software Engineering Course Project",
+    "description": "Four project proposals compared by problem, engineering contribution, validation plan, feasibility, privacy, and delivery risk. GovAssist is the selected proposal.",
+    "pptxUrl": "PlanningPresentation.pptx",
+    "selectedProjectId": 1,
+    "teamMemberIds": [1, 2, 3],
+    "constraints": [
+      "Three members",
+      "One semester",
+      "Free-tier deployment",
+      "No dedicated GPU"
+    ]
+  }
+}

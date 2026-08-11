@@ -19,54 +19,52 @@
     <a href="projects/project2.html">Project 2</a>
     <a href="projects/project3.html">Project 3</a>
     <a href="projects/project4.html">Project 4</a>
+    <a href="planning-presentation.html">Planning Presentation</a>
     <a href="admin.html" class="active">Admin</a>
   </nav>
 </header>
 
-<div class="container">
+<main class="container">
+  <p class="eyebrow">Repository content editor</p>
+  <h1>Edit site data</h1>
 
-  <h1>Admin — Edit Site Content</h1>
-
-  <div class="card" style="border-color:var(--accent); margin-bottom:2rem;">
-    <p style="margin:0;">
-      <strong>How this works:</strong> "Save" stores your changes in <em>this browser only</em>,
-      so you can preview them immediately on the member/project pages. To make changes visible to
-      everyone visiting the deployed site, click <strong>Export data.js</strong> below, copy the
-      generated code, and replace the contents of <code>js/data.js</code> in the project repo, then
-      commit &amp; push (or ask a teammate with repo access to do it).
+  <div class="card admin-notice">
+    <strong>One source of truth</strong>
+    <p>
+      Every public page fetches <code>data/team-data.json</code>. Edit the fields below,
+      export the JSON, replace that file in the repository, and commit it to publish the changes.
+      Browser storage is not used as a hidden data source.
     </p>
   </div>
 
   <form id="admin-form">
-
     <h2 class="section-title">Team Members</h2>
     <div id="members-fields"></div>
 
     <h2 class="section-title">Project Presentations</h2>
     <div id="projects-fields"></div>
 
-    <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:2rem;">
-      <button type="submit" class="btn">Save (preview in this browser)</button>
-      <button type="button" id="export-btn" class="btn" style="background:var(--card); border:1px solid var(--border); color:var(--text);">Export data.js</button>
-      <button type="button" id="reset-btn" class="btn" style="background:transparent; border:1px solid var(--border); color:var(--text-dim);">Reset to defaults</button>
+    <h2 class="section-title">Planning Presentation</h2>
+    <div id="planning-fields"></div>
+
+    <div class="button-row">
+      <button type="submit" class="btn">Generate JSON export</button>
+      <button type="button" id="reload-btn" class="btn btn-secondary">Reload committed data</button>
     </div>
-
-    <p id="save-status" style="color:#34d399; display:none; margin-top:1rem;">Saved! Open a member or project page to see the preview.</p>
-
   </form>
 
-  <div id="export-output" style="display:none; margin-top:2rem;">
-    <h2 class="section-title">Generated js/data.js</h2>
-    <p style="color:var(--text-dim);">Copy everything below and paste it into <code>js/data.js</code>, replacing the existing <code>defaultTeamData</code> object.</p>
-    <textarea id="export-textarea" readonly style="width:100%; min-height:320px; background:var(--card); color:var(--text); border:1px solid var(--border); border-radius:8px; padding:1rem; font-family:Consolas, monospace; font-size:0.85rem;"></textarea>
-    <button type="button" id="copy-btn" class="btn" style="margin-top:1rem;">Copy to clipboard</button>
-  </div>
+  <section id="export-output" class="export-output">
+    <h2 class="section-title">Generated data/team-data.json</h2>
+    <p class="muted">Download this file and replace <code>data/team-data.json</code> in the repository.</p>
+    <textarea id="export-textarea" readonly class="export-textarea"></textarea>
+    <div class="button-row">
+      <button type="button" id="download-json-btn" class="btn">Download team-data.json</button>
+      <button type="button" id="copy-btn" class="btn btn-secondary">Copy JSON</button>
+    </div>
+  </section>
+</main>
 
-</div>
-
-<footer>
-  &copy; 2026 Team Project. Built for our group assignment.
-</footer>
+<footer>&copy; 2026 Team Project. Built for our group assignment.</footer>
 
 <script src="js/data.js"></script>
 <script src="js/admin.js"></script>

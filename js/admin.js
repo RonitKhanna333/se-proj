@@ -1,90 +1,91 @@
-// Builds the admin form from the current team data, and handles
-// Save (localStorage), Export (generate js/data.js source), and Reset.
+// Builds the admin form from data/team-data.json and exports the edited JSON.
+// Public pages never read localStorage; committing the exported JSON is the
+// only way to publish content changes.
 
 let workingData = null;
 
-function initAdminForm() {
-  workingData = JSON.parse(JSON.stringify(getTeamData()));
-  renderMembersFields();
-  renderProjectsFields();
+async function initAdminForm() {
+  try {
+    workingData = JSON.parse(JSON.stringify(await getTeamData({ fresh: true })));
+    renderMembersFields();
+    renderProjectsFields();
+    renderPlanningFields();
 
-  document.getElementById("admin-form").addEventListener("submit", onSave);
-  document.getElementById("export-btn").addEventListener("click", onExport);
-  document.getElementById("reset-btn").addEventListener("click", onReset);
-  document.getElementById("copy-btn").addEventListener("click", onCopy);
+    document.getElementById("admin-form").addEventListener("submit", onExport);
+    document.getElementById("reload-btn").addEventListener("click", onReload);
+    document.getElementById("copy-btn").addEventListener("click", onCopy);
+    document.getElementById("download-json-btn").addEventListener("click", onDownload);
+  } catch (error) {
+    showAdminError(error);
+  }
 }
 
 function renderMembersFields() {
   const container = document.getElementById("members-fields");
   container.innerHTML = "";
 
-  workingData.members.forEach((member, mIndex) => {
-    const card = document.createElement("div");
-    card.className = "card";
-    card.style.marginBottom = "1.5rem";
-
+  workingData.members.forEach((member, memberIndex) => {
+    const card = document.createElement("section");
+    card.className = "card admin-card";
     card.innerHTML = `
       <h3>Member ${member.id}</h3>
       <label>Name</label>
-      <input type="text" data-field="name" data-index="${mIndex}" value="${escapeAttr(member.name)}" class="admin-input">
-      <label>Role / Title</label>
-      <input type="text" data-field="role" data-index="${mIndex}" value="${escapeAttr(member.role)}" class="admin-input">
+      <input type="text" data-member-field="name" data-index="${memberIndex}" value="${escapeAttr(member.name)}" class="admin-input">
+      <label>Role / title</label>
+      <input type="text" data-member-field="role" data-index="${memberIndex}" value="${escapeAttr(member.role)}" class="admin-input">
       <label>Bio</label>
-      <textarea data-field="bio" data-index="${mIndex}" class="admin-input" rows="2">${escapeHtml(member.bio)}</textarea>
+      <textarea data-member-field="bio" data-index="${memberIndex}" class="admin-input" rows="3">${escapeHtml(member.bio)}</textarea>
+      <label>Strength</label>
+      <input type="text" data-member-field="strength" data-index="${memberIndex}" value="${escapeAttr(member.strength)}" class="admin-input">
+      <label>Learning goal</label>
+      <input type="text" data-member-field="learningGoal" data-index="${memberIndex}" value="${escapeAttr(member.learningGoal)}" class="admin-input">
       <label>Skills</label>
-      <div class="skills-editor" data-index="${mIndex}"></div>
-      <button type="button" class="btn add-skill-btn" data-index="${mIndex}" style="margin-top:0.5rem; padding:0.4rem 1rem; font-size:0.85rem;">+ Add skill</button>
+      <div class="skills-editor" data-index="${memberIndex}"></div>
+      <button type="button" class="btn btn-secondary add-skill-btn" data-index="${memberIndex}">+ Add skill</button>
     `;
-
     container.appendChild(card);
-    renderSkillsEditor(mIndex);
+    renderSkillsEditor(memberIndex);
   });
 
-  container.querySelectorAll("[data-field][data-index]").forEach((el) => {
-    el.addEventListener("input", (e) => {
-      const idx = Number(e.target.dataset.index);
-      const field = e.target.dataset.field;
-      workingData.members[idx][field] = e.target.value;
+  container.querySelectorAll("[data-member-field]").forEach((element) => {
+    element.addEventListener("input", (event) => {
+      const index = Number(event.target.dataset.index);
+      workingData.members[index][event.target.dataset.memberField] = event.target.value;
     });
   });
 
-  container.querySelectorAll(".add-skill-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const idx = Number(btn.dataset.index);
-      workingData.members[idx].skills.push({ name: "New Skill", level: 50 });
-      renderSkillsEditor(idx);
+  container.querySelectorAll(".add-skill-btn").forEach((button) => {
+    button.addEventListener("click", () => {
+      const index = Number(button.dataset.index);
+      workingData.members[index].skills.push({ name: "New skill", level: 50 });
+      renderSkillsEditor(index);
     });
   });
 }
 
-function renderSkillsEditor(mIndex) {
-  const wrap = document.querySelector(`.skills-editor[data-index="${mIndex}"]`);
+function renderSkillsEditor(memberIndex) {
+  const wrap = document.querySelector(`.skills-editor[data-index="${memberIndex}"]`);
   wrap.innerHTML = "";
 
-  workingData.members[mIndex].skills.forEach((skill, sIndex) => {
+  workingData.members[memberIndex].skills.forEach((skill, skillIndex) => {
     const row = document.createElement("div");
-    row.style.display = "flex";
-    row.style.gap = "0.5rem";
-    row.style.marginBottom = "0.5rem";
-    row.style.alignItems = "center";
-
+    row.className = "skill-editor-row";
     row.innerHTML = `
-      <input type="text" value="${escapeAttr(skill.name)}" class="admin-input skill-name" style="flex:2;">
-      <input type="number" min="0" max="100" value="${skill.level}" class="admin-input skill-level" style="flex:1;">
-      <button type="button" class="remove-skill-btn" style="background:none; border:1px solid var(--border); color:var(--text-dim); border-radius:6px; cursor:pointer; padding:0.4rem 0.7rem;">✕</button>
+      <input type="text" value="${escapeAttr(skill.name)}" class="admin-input skill-name">
+      <input type="number" min="0" max="100" value="${skill.level}" class="admin-input skill-level">
+      <button type="button" class="remove-skill-btn" aria-label="Remove skill">×</button>
     `;
 
-    row.querySelector(".skill-name").addEventListener("input", (e) => {
-      workingData.members[mIndex].skills[sIndex].name = e.target.value;
+    row.querySelector(".skill-name").addEventListener("input", (event) => {
+      workingData.members[memberIndex].skills[skillIndex].name = event.target.value;
     });
-    row.querySelector(".skill-level").addEventListener("input", (e) => {
-      workingData.members[mIndex].skills[sIndex].level = Number(e.target.value);
+    row.querySelector(".skill-level").addEventListener("input", (event) => {
+      workingData.members[memberIndex].skills[skillIndex].level = Number(event.target.value);
     });
     row.querySelector(".remove-skill-btn").addEventListener("click", () => {
-      workingData.members[mIndex].skills.splice(sIndex, 1);
-      renderSkillsEditor(mIndex);
+      workingData.members[memberIndex].skills.splice(skillIndex, 1);
+      renderSkillsEditor(memberIndex);
     });
-
     wrap.appendChild(row);
   });
 }
@@ -93,102 +94,121 @@ function renderProjectsFields() {
   const container = document.getElementById("projects-fields");
   container.innerHTML = "";
 
-  workingData.projects.forEach((project, pIndex) => {
-    const card = document.createElement("div");
-    card.className = "card";
-    card.style.marginBottom = "1.5rem";
-
+  workingData.projects.forEach((project, projectIndex) => {
+    const card = document.createElement("section");
+    card.className = "card admin-card";
     card.innerHTML = `
       <h3>Project ${project.id}</h3>
       <label>Title</label>
-      <input type="text" data-field="title" data-index="${pIndex}" value="${escapeAttr(project.title)}" class="admin-input proj-input">
+      <input type="text" data-project-field="title" data-index="${projectIndex}" value="${escapeAttr(project.title)}" class="admin-input">
       <label>Description</label>
-      <textarea data-field="description" data-index="${pIndex}" class="admin-input proj-input" rows="2">${escapeHtml(project.description)}</textarea>
-      <label>PPTX file path or URL — either a path to a file committed in this repo (e.g. <code>/ProjectName.pptx</code>) or a full https:// link</label>
-      <input type="text" data-field="pptxUrl" data-index="${pIndex}" value="${escapeAttr(project.pptxUrl)}" class="admin-input proj-input" placeholder="/ProjectName.pptx">
+      <textarea data-project-field="description" data-index="${projectIndex}" class="admin-input" rows="3">${escapeHtml(project.description)}</textarea>
+      <label>PPTX path or full HTTPS URL</label>
+      <input type="text" data-project-field="pptxUrl" data-index="${projectIndex}" value="${escapeAttr(project.pptxUrl)}" class="admin-input">
     `;
-
     container.appendChild(card);
   });
 
-  container.querySelectorAll("input.proj-input, textarea.proj-input").forEach((el) => {
-    el.addEventListener("input", (e) => {
-      const idx = Number(e.target.dataset.index);
-      const field = e.target.dataset.field;
-      workingData.projects[idx][field] = e.target.value;
+  container.querySelectorAll("[data-project-field]").forEach((element) => {
+    element.addEventListener("input", (event) => {
+      const index = Number(event.target.dataset.index);
+      workingData.projects[index][event.target.dataset.projectField] = event.target.value;
     });
   });
 }
 
-function onSave(e) {
-  e.preventDefault();
-  saveTeamData(workingData);
-  const status = document.getElementById("save-status");
-  status.style.display = "block";
-  setTimeout(() => (status.style.display = "none"), 3000);
+function renderPlanningFields() {
+  const presentation = workingData.planningPresentation;
+  document.getElementById("planning-fields").innerHTML = `
+    <section class="card admin-card">
+      <label>Page title</label>
+      <input type="text" data-planning-field="title" value="${escapeAttr(presentation.title)}" class="admin-input">
+      <label>Eyebrow</label>
+      <input type="text" data-planning-field="eyebrow" value="${escapeAttr(presentation.eyebrow)}" class="admin-input">
+      <label>Description</label>
+      <textarea data-planning-field="description" class="admin-input" rows="3">${escapeHtml(presentation.description)}</textarea>
+      <label>PPTX path or full HTTPS URL</label>
+      <input type="text" data-planning-field="pptxUrl" value="${escapeAttr(presentation.pptxUrl)}" class="admin-input">
+      <label>Selected project ID</label>
+      <input type="number" min="1" data-planning-field="selectedProjectId" value="${presentation.selectedProjectId}" class="admin-input">
+      <label>Constraints (one per line)</label>
+      <textarea id="planning-constraints-input" class="admin-input" rows="4">${escapeHtml(presentation.constraints.join("\n"))}</textarea>
+    </section>
+  `;
+
+  document.querySelectorAll("[data-planning-field]").forEach((element) => {
+    element.addEventListener("input", (event) => {
+      const field = event.target.dataset.planningField;
+      workingData.planningPresentation[field] =
+        field === "selectedProjectId" ? Number(event.target.value) : event.target.value;
+    });
+  });
+
+  document.getElementById("planning-constraints-input").addEventListener("input", (event) => {
+    workingData.planningPresentation.constraints = event.target.value
+      .split("\n")
+      .map((item) => item.trim())
+      .filter(Boolean);
+  });
 }
 
-function onReset() {
-  if (!confirm("Reset all fields to the site defaults? This clears your saved edits in this browser.")) return;
-  localStorage.removeItem(TEAM_DATA_STORAGE_KEY);
-  workingData = JSON.parse(JSON.stringify(defaultTeamData));
-  renderMembersFields();
-  renderProjectsFields();
-}
-
-function onExport() {
-  const source = `// Default content for the site. The admin page (admin.html) lets team
-// members edit this data; edits are saved to localStorage for live preview
-// in that browser, and can be exported here to make them permanent for
-// everyone (see admin.html "Export data.js").
-
-const defaultTeamData = ${JSON.stringify(workingData, null, 2)};
-
-const TEAM_DATA_STORAGE_KEY = "teamData";
-
-function getTeamData() {
-  try {
-    const raw = localStorage.getItem(TEAM_DATA_STORAGE_KEY);
-    if (raw) return JSON.parse(raw);
-  } catch (e) {
-    console.warn("Could not read saved team data, using defaults.", e);
-  }
-  return defaultTeamData;
-}
-
-function saveTeamData(data) {
-  localStorage.setItem(TEAM_DATA_STORAGE_KEY, JSON.stringify(data));
-}
-
-function hasSavedTeamData() {
-  return localStorage.getItem(TEAM_DATA_STORAGE_KEY) !== null;
-}
-`;
-
+function onExport(event) {
+  event.preventDefault();
+  const source = `${JSON.stringify(workingData, null, 2)}\n`;
   document.getElementById("export-textarea").value = source;
   document.getElementById("export-output").style.display = "block";
   document.getElementById("export-output").scrollIntoView({ behavior: "smooth" });
 }
 
+async function onReload() {
+  try {
+    workingData = JSON.parse(JSON.stringify(await getTeamData({ fresh: true })));
+    renderMembersFields();
+    renderProjectsFields();
+    renderPlanningFields();
+    document.getElementById("export-output").style.display = "none";
+  } catch (error) {
+    showAdminError(error);
+  }
+}
+
 function onCopy() {
   const textarea = document.getElementById("export-textarea");
-  textarea.select();
   navigator.clipboard.writeText(textarea.value).then(() => {
-    const btn = document.getElementById("copy-btn");
-    const original = btn.textContent;
-    btn.textContent = "Copied!";
-    setTimeout(() => (btn.textContent = original), 2000);
+    const button = document.getElementById("copy-btn");
+    button.textContent = "Copied!";
+    setTimeout(() => (button.textContent = "Copy JSON"), 2000);
   });
 }
 
-function escapeHtml(str) {
+function onDownload() {
+  const source = document.getElementById("export-textarea").value;
+  const url = URL.createObjectURL(new Blob([source], { type: "application/json" }));
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "team-data.json";
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
+function showAdminError(error) {
+  console.error(error);
+  document.getElementById("admin-form").innerHTML = `
+    <div class="card data-error">
+      <strong>Could not load data/team-data.json.</strong>
+      <p>${escapeHtml(error.message)} Serve the repository over HTTP instead of opening admin.html directly.</p>
+    </div>
+  `;
+}
+
+function escapeHtml(value) {
   const div = document.createElement("div");
-  div.textContent = str ?? "";
+  div.textContent = value ?? "";
   return div.innerHTML;
 }
 
-function escapeAttr(str) {
-  return (str ?? "").replace(/"/g, "&quot;");
+function escapeAttr(value) {
+  return escapeHtml(value).replace(/"/g, "&quot;");
 }
 
 document.addEventListener("DOMContentLoaded", initAdminForm);

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Planning Presentation — Team Portfolio</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <a class="brand" href="index.html">Team Project</a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="members/member1.html">Member 1</a>
+    <a href="members/member2.html">Member 2</a>
+    <a href="members/member3.html">Member 3</a>
+    <a href="projects/project1.html">Project 1</a>
+    <a href="projects/project2.html">Project 2</a>
+    <a href="projects/project3.html">Project 3</a>
+    <a href="projects/project4.html">Project 4</a>
+    <a href="planning-presentation.html" class="active">Planning Presentation</a>
+    <a href="admin.html">Admin</a>
+  </nav>
+</header>
+
+<main>
+  <section class="planning-hero">
+    <div class="container planning-hero-inner">
+      <div>
+        <p class="eyebrow" id="planning-eyebrow">Loading…</p>
+        <h1 id="planning-title">Planning Presentation</h1>
+        <p class="planning-lead" id="planning-description"></p>
+        <div class="tag-list" id="planning-constraints"></div>
+      </div>
+      <aside class="selection-card">
+        <span>Selected direction</span>
+        <p id="selected-project">Loading…</p>
+      </aside>
+    </div>
+  </section>
+
+  <div class="container">
+    <section>
+      <div class="section-heading-row">
+        <div>
+          <p class="eyebrow">Decision record</p>
+          <h2 class="section-title compact-title">Proposal deck</h2>
+        </div>
+        <a id="download-link" class="btn" href="#" target="_blank" rel="noopener" style="display:none;">Download PPTX</a>
+      </div>
+      <div class="embed-wrapper" id="embed-wrapper"></div>
+    </section>
+
+    <section>
+      <p class="eyebrow">Owners</p>
+      <h2 class="section-title compact-title">Planning team</h2>
+      <div class="grid planning-team-grid" id="planning-team-grid"></div>
+    </section>
+  </div>
+</main>
+
+<footer>&copy; 2026 Team Project. Built for our group assignment.</footer>
+
+<script src="js/data.js"></script>
+<script src="js/render.js"></script>
+<script>renderPlanningPresentation();</script>
+</body>
+</html>
