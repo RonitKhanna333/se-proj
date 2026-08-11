@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="GovAssist Planning Presentation v1 — scope, architecture, quality targets, risks, ownership, and milestones.">
+  <meta name="description" content="GovAssist Planning Presentation v1 for UCS503.">
   <title>Planning Presentation v1 · GovAssist</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -12,7 +12,7 @@
     <div class="nav-shell">
       <a class="wordmark" href="index.html" aria-label="GovAssist home">
         <span class="wordmark-mark">GA</span>
-        <span class="wordmark-copy"><strong>GovAssist</strong><small>Public-rule decision support</small></span>
+        <span class="wordmark-copy"><strong>GovAssist</strong><small>UCS503 project website</small></span>
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
       <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
@@ -29,7 +29,7 @@
     <section class="planning-hero">
       <div class="container planning-hero-inner">
         <div>
-          <p class="eyebrow light" id="planning-eyebrow">UCS503 · Permanent deliverable page</p>
+          <p class="eyebrow light" id="planning-eyebrow">UCS503 · Planning Presentation</p>
           <h1 class="page-title" id="planning-title">Planning Presentation v1</h1>
           <p class="page-lead" id="planning-description"></p>
           <div class="plan-tags" id="planning-constraints"></div>
@@ -38,7 +38,7 @@
           <ul class="page-meta planning-meta">
             <li><span>Version</span><strong id="planning-version">v1.0</strong></li>
             <li><span>Date</span><strong id="planning-date">5 August 2026</strong></li>
-            <li><span>Status</span><strong id="planning-status">Current baseline</strong></li>
+            <li><span>Status</span><strong id="planning-status">Published</strong></li>
             <li><span>Authors</span><strong id="planning-authors"></strong></li>
           </ul>
           <div class="plan-change"><span>Change summary</span><p id="planning-change-summary"></p></div>
@@ -53,7 +53,7 @@
         <p id="selected-project-reason"></p>
       </div>
       <div class="plan-scope">
-        <h2>Scope and boundary</h2>
+        <h2>Project scope</h2>
         <p id="planning-scope"></p>
       </div>
     </section>
@@ -62,7 +62,7 @@
       <div class="container">
         <header class="section-header">
           <span class="section-number">01 · Requirements</span>
-          <div><h2 class="section-title">What the system must do—and for whom.</h2></div>
+          <div><h2 class="section-title">Project requirements</h2></div>
         </header>
         <div class="requirements-grid">
           <article class="requirement-block"><h3>Objectives</h3><ul class="plain-list" id="planning-objectives"></ul></article>
@@ -78,8 +78,8 @@
         <header class="section-header">
           <span class="section-number">02 · Architecture</span>
           <div>
-            <h2 class="section-title">Four layers with explicit responsibilities.</h2>
-            <p class="section-intro">The proposed architecture separates user experience, application control, rule evaluation, and durable records so each part can be tested and explained independently.</p>
+            <h2 class="section-title">System architecture</h2>
+            <p class="section-intro">The planned system separates the website, application API, rule checks, database, and uploaded files.</p>
           </div>
         </header>
         <div class="architecture-list" id="architecture-grid"></div>
@@ -89,8 +89,8 @@
     <section class="section-block">
       <div class="container">
         <header class="section-header">
-          <span class="section-number">03 · Quality</span>
-          <div><h2 class="section-title">Targets beyond feature completion.</h2><p class="section-intro">Performance, security, reliability, usability, and maintainability are planned as observable engineering requirements.</p></div>
+          <span class="section-number">03 · Non-functional requirements</span>
+          <div><h2 class="section-title">Performance, security, reliability, and maintenance</h2><p class="section-intro">These are the targets we will use while implementing and testing the system.</p></div>
         </header>
         <div class="quality-grid" id="quality-grid"></div>
       </div>
@@ -100,7 +100,7 @@
       <div class="container">
         <header class="section-header">
           <span class="section-number">04 · Risk</span>
-          <div><h2 class="section-title">Known failure modes and planned responses.</h2></div>
+          <div><h2 class="section-title">Technical risks and responses</h2></div>
         </header>
         <div class="risk-list" id="risks-list"></div>
       </div>
@@ -110,7 +110,7 @@
       <div class="container">
         <header class="section-header">
           <span class="section-number">05 · Delivery</span>
-          <div><h2 class="section-title">Twelve-week milestone plan.</h2><p class="section-intro">Dependencies move from rule modelling and platform foundations into intake, verification, integration, and the public demonstration.</p></div>
+          <div><h2 class="section-title">Implementation timeline</h2><p class="section-intro">The work starts with requirements and the rule model, followed by the API, frontend, integration, testing, and final demonstration.</p></div>
         </header>
         <div class="milestone-list" id="milestone-list"></div>
       </div>
@@ -119,7 +119,7 @@
     <section class="selected-band">
       <div class="container selected-band-inner">
         <div><p class="eyebrow light">Source artifact</p><h2>Planning deck</h2></div>
-        <p>The presentation is hosted inside this permanent page and remains downloadable as the original PPTX.</p>
+        <p>The submitted PPTX is embedded below and can also be downloaded directly.</p>
         <a class="button button-light" id="download-link" href="#" hidden target="_blank" rel="noopener">Download PPTX <span>↓</span></a>
       </div>
     </section>
@@ -133,7 +133,7 @@
       <div class="container">
         <header class="section-header">
           <span class="section-number">06 · Ownership</span>
-          <div><h2 class="section-title">Named leads, shared delivery.</h2></div>
+          <div><h2 class="section-title">Team responsibilities</h2></div>
         </header>
         <div class="planning-team-grid" id="planning-team-grid"></div>
       </div>
@@ -143,7 +143,7 @@
       <div class="container">
         <header class="section-header">
           <span class="section-number">07 · History</span>
-          <div><h2 class="section-title">Published versions remain accessible.</h2><p class="section-intro">A future v2 will be added as a separate permanent page if the plan changes; v1 will remain intact.</p></div>
+          <div><h2 class="section-title">Version history</h2><p class="section-intro">If the plan changes, v2 will be added as a separate page and this version will remain available.</p></div>
         </header>
         <div class="version-list" id="version-list"></div>
       </div>
@@ -152,14 +152,14 @@
 
   <footer class="site-footer">
     <div class="container footer-main">
-      <div class="footer-brand"><h2>GovAssist</h2><p>Public rules, made traceable.</p></div>
+      <div class="footer-brand"><h2>GovAssist</h2><p>UCS503 software engineering project</p></div>
       <div class="footer-meta">
         <div><span>Course</span><strong>UCS503</strong></div>
         <div><span>Deliverable</span><strong>Planning Presentation v1</strong></div>
         <div><span>Authors</span><strong>Ronit · Bhavneet · Shreyas</strong></div>
       </div>
     </div>
-    <div class="container footer-bottom"><span>© 2026 GovAssist team</span><span>Versioned permanent deliverable</span></div>
+    <div class="container footer-bottom"><span>© 2026 GovAssist team</span><span>Planning Presentation v1</span></div>
   </footer>
 
   <script src="js/data.js"></script>
