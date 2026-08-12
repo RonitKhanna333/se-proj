@@ -106,7 +106,7 @@
     "authors": ["Ronit", "Bhavneet", "Shreyas"],
     "changeSummary": "Revised with the full development plan: a corpus-first build order, an LLM-aided drafting workflow with human-gated provenance, a multilingual voice layer, and a Postgres-based knowledge graph. Scope narrows to scheme eligibility only for the MVP; ITR and GST are deferred but the pipeline stays domain-generic.",
     "description": "GovAssist is a grounded copilot: it answers government-paperwork questions with the exact rule clause cited, instead of a confident guess. English is the canonical internal language — translation happens only at the boundaries — so a citizen can read the UI, ask a question, and hear the answer spoken back in their own regional language, while every claim underneath still traces to a verbatim quote from an official document.",
-    "pptxUrl": "GovAssist_UCS503_Presentation.pptx",
+    "pptxUrl": "GovAssist_UCS503_Planning_v1_2.pptx",
     "selectedProjectId": 1,
     "teamMemberIds": [1, 2, 3],
     "constraints": [
